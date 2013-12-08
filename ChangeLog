@@ -1,3 +1,13 @@
+2013-12-08  Jeremy Bennett  <jeremy.bennett@embecosm.com>
+
+	* configure: Regenerated.
+	* configure.ac: Added gdb-auxv.
+	* Makefile.am: Added gdb-auxv.
+	* Makefile.in: Regenerated.
+	* src/gdb-auxv/Makefile.am: Created.
+	* src/gdb-auxv/Makefile.in: Generated.
+	* src/gdb-auxv/auxv.c: Created.
+
 2013-12-05  Jeremy Bennett  <jeremy.bennett@embecosm.com>
 
 	* src/gdb-advance/Makefile.in: Regenerated.
