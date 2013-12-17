@@ -13,6 +13,30 @@
 	    the analysis on
 
 2013-12-16  James Pallister  <james.pallister@bristol.ac.uk>
+	Added thumbulator as the cortex-m0 simulator
+
+	* Makefile.in: Regenerated
+	* analysis/Makefile.am: Generate simulate.cortex-m0
+	* analysis/Makefile.in: Regenerated
+	* analysis/simulate.cortex-m0.in: Template script for
+	    simulate.cortex-m0
+	* configure: Regenerated
+	* configure.ac: Added enable cortex-m0 simulator flag
+	* generate.cortex-m0: Generate for cortex-m0 out of tree
+	* src/2dfir/Makefile.in: Regenerated
+	* src/blowfish/Makefile.in: Regenerated
+	* src/crc32/Makefile.in: Regenerated
+	* src/cubic/Makefile.in: Regenerated
+	* src/dijkstra/Makefile.in: Regenerated
+	* src/fdct/Makefile.in: Regenerated
+	* src/float_matmult/Makefile.in: Regenerated
+	* src/int_matmult/Makefile.in: Regenerated
+	* src/platformcode/Makefile.in: Regenerated
+	* src/rijndael/Makefile.in: Regenerated
+	* src/sha/Makefile.in: Regenerated
+	* src/template/Makefile.in: Regenerated
+
+2013-12-16  James Pallister  <james.pallister@bristol.ac.uk>
 	Added detection of AVR simulator
 
 	* Makefile.in: Regenerated
