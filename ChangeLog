@@ -1,3 +1,12 @@
+2014-03-17  James Pallister  <james.pallister@bristol.ac.uk>
+	Added python scripts to drive compilation and execution of BEEBS
+
+	* python/src/beebs.py: This script interfaces with configure and make
+	    to build BEEBS with specific options for a specified platform
+	* python/src/compiler.py: This script selects/sequences optimisations.
+	    This can be used to compile the benchmark suite with a particular
+	    set of optimisations.
+
 2014-03-05  James Pallister  <james.pallister@bristol.ac.uk>
 	Small fixes for benchmark compilation
 
