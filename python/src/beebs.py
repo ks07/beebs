@@ -108,7 +108,7 @@ def make(platform, benchmarks=None, cflags=""):
 
     # If we build them all, we don't need to enter individual subdirectories
     if benchmarks is None:
-        out = pexpect.run("make CFLAGS=\"{}\"".format(cflags), logfile=LogWriter(makelog, logging.DEBUG), withexitstatus=True)
+        out = pexpect.run("make CFLAGS=\"{}\"".format(cflags), cwd=beebs_build_abs, logfile=LogWriter(makelog, logging.DEBUG), withexitstatus=True)
         ret = out[1]
 
         if ret != 0:

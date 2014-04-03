@@ -1,3 +1,8 @@
+2014-04-03  Pierre Langlois  <pierre.langlois@embecosm.com>
+
+	* python/src/beebs.py (make): Add beebs_build_abs argument to
+	pexpect.run().
+
 2014-03-17  James Pallister  <james.pallister@bristol.ac.uk>
 	Added python scripts to drive compilation and execution of BEEBS
 
