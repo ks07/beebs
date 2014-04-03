@@ -7,6 +7,7 @@ import pexpect
 logger = logging.getLogger(__name__)
 info = logger.info
 warning = logger.warning
+fatal = logger.fatal
 
 try:
     import platformrun
@@ -79,6 +80,14 @@ def initialise(platform):
     beebs_src_abs = os.path.abspath(beebs_src)
     beebs_build_abs = getBuildDir(platform)
 
+    if not os.path.exists(beebs_src_abs):
+        initlog.info("BEEBS doesn't exist. Cloning from http://github.com/mageec/beebs")
+        beebs_parent_dir = os.path.join(os.path.split(beebs_src_abs)[:-1])[0]
+        print beebs_parent_dir
+        pexpect.run("mkdir -p "+ beebs_parent_dir, logfile=LogWriter(initlog, logging.DEBUG))
+        pexpect.run("git clone http://github.com/mageec/beebs", cwd=beebs_parent_dir, withexitstatus=True, logfile=LogWriter(initlog, logging.DEBUG), timeout=120)
+        pexpect.run("git checkout beebsv2", cwd=beebs_src_abs, withexitstatus=True, logfile=LogWriter(initlog, logging.DEBUG))
+
     initlog.info("Building beebs in {}".format(beebs_build_abs))
     os.system("mkdir -p "+beebs_build_abs)
 
@@ -94,7 +103,7 @@ def initialise(platform):
         initlog.info("Initialise platformrun")
         platformrun.loadConfiguration()
         platformrun.loadToolConfiguration()
-    
+
 
 def make(platform, benchmarks=None, cflags=""):
     """Make the benchmarks. If benchmarks is None, build all, else this is a list of benchmarks to compile"""
@@ -108,7 +117,7 @@ def make(platform, benchmarks=None, cflags=""):
 
     # If we build them all, we don't need to enter individual subdirectories
     if benchmarks is None:
-        out = pexpect.run("make CFLAGS=\"{}\"".format(cflags), cwd=beebs_build_abs, logfile=LogWriter(makelog, logging.DEBUG), withexitstatus=True)
+        out = pexpect.run("make CFLAGS=\"{}\"".format(cflags), cwd=beebs_build_abs, logfile=LogWriter(makelog, logging.DEBUG), withexitstatus=True, timeout=3600)
         ret = out[1]
 
         if ret != 0:
@@ -118,7 +127,7 @@ def make(platform, benchmarks=None, cflags=""):
     else:
         for b in benchmarks:
             makelog.info("Making benchmark {}".format(b))
-            out = pexpect.run("make CFLAGS=\"{}\"".format(cflags), cwd="{}/src/{}".format(beebs_build_abs,b), logfile=LogWriter(makelog, logging.DEBUG), withexitstatus=True)
+            out = pexpect.run("make CFLAGS=\"{}\"".format(cflags), cwd="{}/src/{}".format(beebs_build_abs,b), logfile=LogWriter(makelog, logging.DEBUG), withexitstatus=True, timeout=3600)
             ret = out[1]
 
             if ret != 0:

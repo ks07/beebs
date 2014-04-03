@@ -1,3 +1,10 @@
+2014-04-03  James Pallister  <james.pallister@bristol.ac.uk>
+	Autocheckout beebs if the code does not exist. Fix some pexpect
+	timeouts
+
+	* python/src/beebs.py: Autocheckout beebs if the code does not exist.
+	    Fix some pexpect timeouts
+
 2014-04-03  Pierre Langlois  <pierre.langlois@embecosm.com>
 
 	* python/src/beebs.py (make): Add beebs_build_abs argument to
