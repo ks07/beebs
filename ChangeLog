@@ -1,4 +1,13 @@
 2014-04-08  James Pallister  <james.pallister@bristol.ac.uk>
+	Added support files for beebs module
+
+	* python/README.rst: Added README
+	* python/setup.py: Setup file for beebs python module
+	* python/src/beebs/__init__.py: Include the beebs
+	* python/src/beebs/beebs.py: Moved
+	* python/src/beebs/compiler.py: Moved
+
+2014-04-08  James Pallister  <james.pallister@bristol.ac.uk>
 	Improved the logwriter class, only full lines are passed to the logger
 	now.
 
