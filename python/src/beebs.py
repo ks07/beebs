@@ -38,9 +38,16 @@ class LogWriter(object):
     def __init__(self, logger, level):
         self.logger = logger
         self.level = level
+        self.current_msg = ""
     def write(self, msg):
-        for s in msg.split('\n'):
-            self.logger.log(self.level, s)
+        self.current_msg += msg
+
+        if '\n' in self.current_msg:
+            s = self.current_msg.split('\n')
+            to_print = s[:-1]
+            self.current_msg = s[-1]
+            for s in to_print:
+                self.logger.log(self.level, s)
     def flush(self):
         pass
     def close(self):

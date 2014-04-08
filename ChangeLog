@@ -1,3 +1,10 @@
+2014-04-08  James Pallister  <james.pallister@bristol.ac.uk>
+	Improved the logwriter class, only full lines are passed to the logger
+	now.
+
+	* python/src/beebs.py: Save the log messages until a newline is
+	    encountered, then output that to the logger.
+
 2014-04-03  James Pallister  <james.pallister@bristol.ac.uk>
 	Autocheckout beebs if the code does not exist. Fix some pexpect
 	timeouts
