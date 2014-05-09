@@ -93,8 +93,9 @@ int main()
    stop_trigger();
 
    int to_return = 0;
-   for (int i = 0; i < UPPERLIMIT; i++) {
-      for (int j = 0; j < UPPERLIMIT; j++) {
+   int i, j;
+   for (i = 0; i < UPPERLIMIT; i++) {
+      for (j = 0; j < UPPERLIMIT; j++) {
          if (ResultArray[i][j] != check_ResultArray[i][j]) {
             to_return = -1;
             break;

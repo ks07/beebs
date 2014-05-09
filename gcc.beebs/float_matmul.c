@@ -68,8 +68,9 @@ int main()
 
    int to_return = 0, exp;
    float diff;
-   for (int i = 0; i < UPPERLIMIT; i++) {
-      for (int j = 0; j < UPPERLIMIT; j++) {
+   int i, j;
+   for (i = 0; i < UPPERLIMIT; i++) {
+      for (j = 0; j < UPPERLIMIT; j++) {
          if (ResultArray[i][j] != check_ResultArray[i][j]) {
             /* Ignore the least significant bit of the mantissa
              * to account for any loss of precision due to floating point
