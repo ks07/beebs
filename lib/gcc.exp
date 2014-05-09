@@ -14,6 +14,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+# This file is part of the Bristol/Embecosm Embedded Energy Benchmark Suite.
+
 # This file was written by Rob Savoye (rob@cygnus.com)
 # Currently maintained by Doug Evans (dje@cygnus.com)
 

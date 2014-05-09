@@ -1,3 +1,15 @@
+2014-04-09  Pierre Langlois  <pierre.langlois@embecosm.com>
+
+	* config/default.exp: Mention BEEBS in the header.
+	* gcc.benchmarks/execute.exp: Likewise.
+	* lib/c-torture.exp: Likewise.
+	* lib/file-format.exp: Likewise.
+	* lib/gcc-defs.exp: Likewise.
+	* lib/gcc.exp: Likewise.
+	* lib/prune.exp: Likewise.
+	* lib/wrapper.exp: Likewise.
+	* site.exp: Likewise.
+
 2014-04-09  Simon Cook  <simon.cook@embecosm.com>
 
 	* config/default.exp: Added from GCC Test Suite.
