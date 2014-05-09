@@ -22,4 +22,4 @@
 
 CURDIR=$(dirname $0)
 export DEJAGNU=$CURDIR/site.exp
-runtest --tool=gcc --directory=gcc.benchmarks --srcdir=$CURDIR execute.exp=gcc.benchmarks/*.c
+runtest --tool=gcc --directory=gcc.beebs --srcdir=$CURDIR execute.exp=gcc.beebs/*.c

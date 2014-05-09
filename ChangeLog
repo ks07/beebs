@@ -1,3 +1,9 @@
+2014-04-09  Simon Cook  <simon.cook@embecosm.com>
+
+	* gcc.benchmarks: Rename to...
+	* gcc.beebs: ... this.
+	* run.sh: Update script to match updated test directory.
+
 2014-04-09  Pierre Langlois  <pierre.langlois@embecosm.com>
 
 	* config/default.exp: Mention BEEBS in the header.
