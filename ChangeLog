@@ -1,5 +1,365 @@
 2014-04-09  Simon Cook  <simon.cook@embecosm.com>
 
+	* src/adpcm/adpcm.c: Rename to...
+	* gcc.beebs/adpcm.c: ... this.
+	* src/bs/bs.c: Rename to...
+	* gcc.beebs/bs.c: ... this.
+	* src/bsort100/bsort100.c: Rename to...
+	* gcc.beebs/bsort100.c: ... this.
+	* src/bubblesort/bubblesort.c: Rename to...
+	* gcc.beebs/bubblesort.c: ... this.
+	* src/cnt/cnt.c: Rename to...
+	* gcc.beebs/cnt.c: ... this.
+	* src/compress/compress.c: Rename to...
+	* gcc.beebs/compress.c: ... this.
+	* src/cover/cover.c: Rename to...
+	* gcc.beebs/cover.c: ... this.
+	* src/crc/crc.c: Rename to...
+	* gcc.beebs/crc.c: ... this.
+	* src/crc32/LICENSE: Rename to...
+	* gcc.beebs/crc32.LICENSE: ... this.
+	* src/crc32/crc_32.c: Rename to...
+	* gcc.beebs/crc32.c: ... this.
+	Replace use of crc.h with crc32.h.
+	* src/crc32/crc.h: Rename to...
+	* gcc.beebs/crc32.h: ... this.
+	* src/ctl-stack/stack.c: Rename to...
+	* gcc.beebs/ctl-stack.c: ... this.
+	Replace use of stack.h with ctl-stack.h
+	* src/ctl-stack/stack.h: Rename to...
+	* gcc.beebs/ctl-stack.h: ... this.
+	* src/ctl-string/string.c: Rename to...
+	* gcc.beebs/ctl-string.c: ... this.
+	* src/ctl-vector/vector.c: Rename to...
+	* gcc.beebs/ctl-vector.c: ... this.
+	Replace use of vector.h with ctl-vector.h
+	* src/ctl-vector/vector.h: Rename to...
+	* gcc.beebs/ctl-vector.h: ... this.
+	* src/ctl-stack/ctl.h: Rename to...
+	* gcc.beebs/ctl.h: ... this.
+	* src/dijkstra/LICENSE: Rename to...
+	* gcc.beebs/dijkstra.LICENSE: ... this.
+	* src/dijkstra/dijkstra_small.c: Rename to...
+	* gcc.beebs/dijkstra.c: ... this.
+	* src/dtoa/dtoa.c: Rename to...
+	* gcc.beebs/dtoa.c: ... this.
+	* src/duff/duff.c: Rename to...
+	* gcc.beebs/duff.c: ... this.
+	* src/edn/edn.c: Rename to...
+	* gcc.beebs/edn.c: ... this.
+	* src/expint/expint.c: Rename to...
+	* gcc.beebs/expint.c: ... this.
+	* src/fac/fac.c: Rename to...
+	* gcc.beebs/fac.c: ... this.
+	* src/fasta/fasta.c: Rename to...
+	* gcc.beebs/fasta.c: ... this.
+	* src/fdct/fdct.c: Rename to...
+	* gcc.beebs/fdct.c: ... this.
+	* src/fft/fft1.c: Rename to...
+	* gcc.beebs/fft.c: ... this.
+	* src/fibcall/fibcall.c: Rename to...
+	* gcc.beebs/fibcall.c: ... this.
+	* src/fir/fir.c: Rename to...
+	* gcc.beebs/fir.c: ... this.
+	* src/2dfir/fir2dim.c: Rename to...
+	* gcc.beebs/fir2dim.c: ... this.
+	* src/float_matmult/matmult.c: Rename to...
+	* gcc.beebs/float_matmul.c: ... this.
+	* src/frac/frac.c: Rename to...
+	* gcc.beebs/frac.c: ... this.
+	* src/gdb-advance/advance.c: Rename to...
+	* gcc.beebs/gdb-advance.c: ... this.
+	* src/gdb-all-types/all-types.c: Rename to...
+	* gcc.beebs/gdb-all-types.c: ... this.
+	* src/gdb-anon/anon.c: Rename to...
+	* gcc.beebs/gdb-anon.c: ... this.
+	* src/gdb-arrayidx/arrayidx.c: Rename to...
+	* gcc.beebs/gdb-arrayidx.c: ... this.
+	* src/gdb-async/async.c: Rename to...
+	* gcc.beebs/gdb-async.c: ... this.
+	* src/gdb-bitfields/bitfields.c: Rename to...
+	* gcc.beebs/gdb-bitfields.c: ... this.
+	* src/gdb-constvars/constvars.c: Rename to...
+	* gcc.beebs/gdb-constvars.c: ... this.
+	* src/gdb-store/store.c: Rename to...
+	* gcc.beebs/gdb-store.c: ... this.
+	* src/huffbench/huffbench.c: Rename to...
+	* gcc.beebs/huffbench.c: ... this.
+	* src/insertsort/insertsort.c: Rename to...
+	* gcc.beebs/insertsort.c: ... this.
+	* src/int_matmult/matmult.c: Rename to...
+	* gcc.beebs/int_matmul.c: ... this.
+	* src/janne_complex/janne_complex.c: Rename to...
+	* gcc.beebs/janne_complex.c: ... this.
+	* src/jfdctint/jfdctint.c: Rename to...
+	* gcc.beebs/jfdctint.c: ... this.
+	* src/lcdnum/lcdnum.c: Rename to...
+	* gcc.beebs/lcdnum.c: ... this.
+	* src/levenshtein/levenshtein.c: Rename to...
+	* gcc.beebs/levenshtein.c: ... this.
+	* src/lms/lms.c: Rename to...
+	* gcc.beebs/lms.c: ... this.
+	* src/ludcmp/ludcmp.c: Rename to...
+	* gcc.beebs/ludcmp.c: ... this.
+	* src/mergesort/mergesort.c: Rename to...
+	* gcc.beebs/mergesort.c: ... this.
+	* src/minver/minver.c: Rename to...
+	* gcc.beebs/minver.c: ... this.
+	* src/nbody/nbody.c: Rename to...
+	* gcc.beebs/nbody.c: ... this.
+	* src/ndes/ndes.c: Rename to...
+	* gcc.beebs/ndes.c: ... this.
+	* src/nettle-arcfour/arcfour.c: Rename to...
+	* gcc.beebs/nettle-arcfour.c: ... this.
+	* src/nettle-cast128/cast128.c: Rename to...
+	* gcc.beebs/nettle-cast128.c: ... this.
+	* src/nettle-md5/md5.c: Rename to...
+	* gcc.beebs/nettle-md5.c: ... this.
+	* src/newlib-exp/ef_exp.c: Rename to...
+	* gcc.beebs/newlib-ef_exp.c: ... this.
+	* src/newlib-log/ef_log.c: Rename to...
+	* gcc.beebs/newlib-ef_log.c: ... this.
+	* src/newlib-mod/ef_mod.c: Rename to...
+	* gcc.beebs/newlib-ef_mod.c: ... this.
+	* src/newlib-sqrt/ef_sqrt.c: Rename to...
+	* gcc.beebs/newlib-ef_sqrt.c: ... this.
+	* src/ns/ns.c: Rename to...
+	* gcc.beebs/ns.c: ... this.
+	* src/nsichneu/nsichneu.c: Rename to...
+	* gcc.beebs/nsichneu.c: ... this.
+	* src/prime/prime.c: Rename to...
+	* gcc.beebs/prime.c: ... this.
+	* src/qsort/qsort.c: Rename to...
+	* gcc.beebs/qsort.c: ... this.
+	* src/qurt/qurt.c: Rename to...
+	* gcc.beebs/qurt.c: ... this.
+	* src/recursion/recursion.c: Rename to...
+	* gcc.beebs/recursion.c: ... this.
+	* src/select/select.c: Rename to...
+	* gcc.beebs/select.c: ... this.
+	* src/sglib-arraybinsearch/arraybinsearch.c: Rename to...
+	* gcc.beebs/sglib-arraybinsearch.c: ... this.
+	* src/sglib-arraysort/arraysort.c: Rename to...
+	* gcc.beebs/sglib-arraysort.c: ... this.
+	* src/sglib-arraysort1/arraysort1.c: Rename to...
+	* gcc.beebs/sglib-arraysort1.c: ... this.
+	* src/sglib-dllist/dllist.c: Rename to...
+	* gcc.beebs/sglib-dllist.c: ... this.
+	* src/sglib-hashtable/hashtable.c: Rename to...
+	* gcc.beebs/sglib-hashtable.c: ... this.
+	* src/sglib-listinsertsort/listinsertsort.c: Rename to...
+	* gcc.beebs/sglib-listinsertsort.c: ... this.
+	* src/sglib-listinsertsort1/listinsertsort1.c: Rename to...
+	* gcc.beebs/sglib-listinsertsort1.c: ... this.
+	* src/sglib-listsort/listsort.c: Rename to...
+	* gcc.beebs/sglib-listsort.c: ... this.
+	* src/sglib-queue/queue.c: Rename to...
+	* gcc.beebs/sglib-queue.c: ... this.
+	Replace use of sglib.h with sglib-queue.h.
+	* src/sglib-queue/sglib.h: Rename to...
+	* gcc.beebs/sglib-queue.h: ... this.
+	* src/sglib-rbtree/rbtree.c: Rename to...
+	* gcc.beebs/sglib-rbtree.c: ... this.
+	* src/sglib-arraybinsearch/sglib.h: Rename to...
+	* gcc.beebs/sglib.h: ... this.
+	* src/slre/slre.c: Rename to...
+	* gcc.beebs/slre.c: ... this.
+	* src/slre/slre.h: Rename to...
+	* gcc.beebs/slre.h: ... this.
+	* src/sqrt/sqrt.c: Rename to...
+	* gcc.beebs/sqrt.c: ... this.
+	* src/st/st.c: Rename to...
+	* gcc.beebs/st.c: ... this.
+	* src/statemate/statemate.c: Rename to...
+	* gcc.beebs/statemate.c: ... this.
+	* src/strstr/strstr.c: Rename to...
+	* gcc.beebs/strstr.c: ... this.
+	* src/tarai/tarai.c: Rename to...
+	* gcc.beebs/tarai.c: ... this.
+	* src/template/template.c: Rename to...
+	* gcc.beebs/template.c: ... this.
+	* src/ud/ud.c: Rename to...
+	* gcc.beebs/ud.c: ... this.
+	* src/whetstone/whetstone.c: Rename to...
+	* gcc.beebs/whetstone.c: ... this.
+	* src/wikisort/wikisort.c: Rename to...
+	* gcc.beebs/wikisort.c: ... this.
+	* gcc.beebs/platform.h: Add dummy generic platform code.
+	* 2dfir/Makefile.am: Deleted.
+	* 2dfir/Makefile.in: Likewise.
+	* adpcm/Makefile.am: Likewise.
+	* adpcm/Makefile.in: Likewise.
+	* bs/Makefile.am: Likewise.
+	* bs/Makefile.in: Likewise.
+	* bsort100/Makefile.am: Likewise.
+	* bsort100/Makefile.in: Likewise.
+	* bubblesort/Makefile.am: Likewise.
+	* bubblesort/Makefile.in: Likewise.
+	* cnt/Makefile.am: Likewise.
+	* cnt/Makefile.in: Likewise.
+	* compress/Makefile.am: Likewise.
+	* compress/Makefile.in: Likewise.
+	* cover/Makefile.am: Likewise.
+	* cover/Makefile.in: Likewise.
+	* crc/Makefile.am: Likewise.
+	* crc/Makefile.in: Likewise.
+	* crc32/Makefile.am: Likewise.
+	* crc32/Makefile.in: Likewise.
+	* ctl-stack/Makefile.am: Likewise.
+	* ctl-stack/Makefile.in: Likewise.
+	* ctl-string/Makefile.am: Likewise.
+	* ctl-string/Makefile.in: Likewise.
+	* ctl-vector/Makefile.am: Likewise.
+	* ctl-vector/Makefile.in: Likewise.
+	* ctl-vector/ctl.h: Likewise.
+	* dijkstra/Makefile.am: Likewise.
+	* dijkstra/Makefile.in: Likewise.
+	* dtoa/Makefile.am: Likewise.
+	* dtoa/Makefile.in: Likewise.
+	* duff/Makefile.am: Likewise.
+	* duff/Makefile.in: Likewise.
+	* edn/Makefile.am: Likewise.
+	* edn/Makefile.in: Likewise.
+	* expint/Makefile.am: Likewise.
+	* expint/Makefile.in: Likewise.
+	* fac/Makefile.am: Likewise.
+	* fac/Makefile.in: Likewise.
+	* fasta/Makefile.am: Likewise.
+	* fasta/Makefile.in: Likewise.
+	* fdct/Makefile.am: Likewise.
+	* fdct/Makefile.in: Likewise.
+	* fft/Makefile.am: Likewise.
+	* fft/Makefile.in: Likewise.
+	* fibcall/Makefile.am: Likewise.
+	* fibcall/Makefile.in: Likewise.
+	* fir/Makefile.am: Likewise.
+	* fir/Makefile.in: Likewise.
+	* float_matmult/Makefile.am: Likewise.
+	* float_matmult/Makefile.in: Likewise.
+	* frac/Makefile.am: Likewise.
+	* frac/Makefile.in: Likewise.
+	* gdb-advance/Makefile.am: Likewise.
+	* gdb-advance/Makefile.in: Likewise.
+	* gdb-all-types/Makefile.am: Likewise.
+	* gdb-all-types/Makefile.in: Likewise.
+	* gdb-anon/Makefile.am: Likewise.
+	* gdb-anon/Makefile.in: Likewise.
+	* gdb-arrayidx/Makefile.am: Likewise.
+	* gdb-arrayidx/Makefile.in: Likewise.
+	* gdb-async/Makefile.am: Likewise.
+	* gdb-async/Makefile.in: Likewise.
+	* gdb-bitfields/Makefile.am: Likewise.
+	* gdb-bitfields/Makefile.in: Likewise.
+	* gdb-constvars/Makefile.am: Likewise.
+	* gdb-constvars/Makefile.in: Likewise.
+	* gdb-store/Makefile.am: Likewise.
+	* gdb-store/Makefile.in: Likewise.
+	* huffbench/Makefile.am: Likewise.
+	* huffbench/Makefile.in: Likewise.
+	* insertsort/Makefile.am: Likewise.
+	* insertsort/Makefile.in: Likewise.
+	* int_matmult/Makefile.am: Likewise.
+	* int_matmult/Makefile.in: Likewise.
+	* janne_complex/Makefile.am: Likewise.
+	* janne_complex/Makefile.in: Likewise.
+	* jfdctint/Makefile.am: Likewise.
+	* jfdctint/Makefile.in: Likewise.
+	* lcdnum/Makefile.am: Likewise.
+	* lcdnum/Makefile.in: Likewise.
+	* levenshtein/Makefile.am: Likewise.
+	* levenshtein/Makefile.in: Likewise.
+	* lms/Makefile.am: Likewise.
+	* lms/Makefile.in: Likewise.
+	* ludcmp/Makefile.am: Likewise.
+	* ludcmp/Makefile.in: Likewise.
+	* mergesort/Makefile.am: Likewise.
+	* mergesort/Makefile.in: Likewise.
+	* minver/Makefile.am: Likewise.
+	* minver/Makefile.in: Likewise.
+	* nbody/Makefile.am: Likewise.
+	* nbody/Makefile.in: Likewise.
+	* nbody/a.out: Likewise.
+	* ndes/Makefile.am: Likewise.
+	* ndes/Makefile.in: Likewise.
+	* nettle-arcfour/Makefile.am: Likewise.
+	* nettle-arcfour/Makefile.in: Likewise.
+	* nettle-cast128/Makefile.am: Likewise.
+	* nettle-cast128/Makefile.in: Likewise.
+	* nettle-md5/Makefile.am: Likewise.
+	* nettle-md5/Makefile.in: Likewise.
+	* newlib-exp/Makefile.am: Likewise.
+	* newlib-exp/Makefile.in: Likewise.
+	* newlib-log/Makefile.am: Likewise.
+	* newlib-log/Makefile.in: Likewise.
+	* newlib-mod/Makefile.am: Likewise.
+	* newlib-mod/Makefile.in: Likewise.
+	* newlib-sqrt/Makefile.am: Likewise.
+	* newlib-sqrt/Makefile.in: Likewise.
+	* ns/Makefile.am: Likewise.
+	* ns/Makefile.in: Likewise.
+	* nsichneu/Makefile.am: Likewise.
+	* nsichneu/Makefile.in: Likewise.
+	* prime/Makefile.am: Likewise.
+	* prime/Makefile.in: Likewise.
+	* qsort/Makefile.am: Likewise.
+	* qsort/Makefile.in: Likewise.
+	* qurt/Makefile.am: Likewise.
+	* qurt/Makefile.in: Likewise.
+	* recursion/Makefile.am: Likewise.
+	* recursion/Makefile.in: Likewise.
+	* select/Makefile.am: Likewise.
+	* select/Makefile.in: Likewise.
+	* sglib-arraybinsearch/Makefile.am: Likewise.
+	* sglib-arraybinsearch/Makefile.in: Likewise.
+	* sglib-arraysort/Makefile.am: Likewise.
+	* sglib-arraysort/Makefile.in: Likewise.
+	* sglib-arraysort/sglib.h: Likewise.
+	* sglib-arraysort1/Makefile.am: Likewise.
+	* sglib-arraysort1/Makefile.in: Likewise.
+	* sglib-arraysort1/sglib.h: Likewise.
+	* sglib-dllist/Makefile.am: Likewise.
+	* sglib-dllist/Makefile.in: Likewise.
+	* sglib-dllist/sglib.h: Likewise.
+	* sglib-hashtable/Makefile.am: Likewise.
+	* sglib-hashtable/Makefile.in: Likewise.
+	* sglib-hashtable/sglib.h: Likewise.
+	* sglib-listinsertsort/Makefile.am: Likewise.
+	* sglib-listinsertsort/Makefile.in: Likewise.
+	* sglib-listinsertsort/sglib.h: Likewise.
+	* sglib-listinsertsort1/Makefile.am: Likewise.
+	* sglib-listinsertsort1/Makefile.in: Likewise.
+	* sglib-listinsertsort1/sglib.h: Likewise.
+	* sglib-listsort/Makefile.am: Likewise.
+	* sglib-listsort/Makefile.in: Likewise.
+	* sglib-listsort/sglib.h: Likewise.
+	* sglib-queue/Makefile.am: Likewise.
+	* sglib-queue/Makefile.in: Likewise.
+	* sglib-rbtree/Makefile.am: Likewise.
+	* sglib-rbtree/Makefile.in: Likewise.
+	* sglib-rbtree/sglib.h: Likewise.
+	* slre/Makefile.am: Likewise.
+	* slre/Makefile.in: Likewise.
+	* sqrt/Makefile.am: Likewise.
+	* sqrt/Makefile.in: Likewise.
+	* st/Makefile.am: Likewise.
+	* st/Makefile.in: Likewise.
+	* statemate/Makefile.am: Likewise.
+	* statemate/Makefile.in: Likewise.
+	* strstr/Makefile.am: Likewise.
+	* strstr/Makefile.in: Likewise.
+	* tarai/Makefile.am: Likewise.
+	* tarai/Makefile.in: Likewise.
+	* template/Makefile.am: Likewise.
+	* template/Makefile.in: Likewise.
+	* ud/Makefile.am: Likewise.
+	* ud/Makefile.in: Likewise.
+	* whetstone/Makefile.am: Likewise.
+	* whetstone/Makefile.in: Likewise.
+	* wikisort/Makefile.am: Likewise.
+	* wikisort/Makefile.in: Likewise.
+
+2014-04-09  Simon Cook  <simon.cook@embecosm.com>
+
 	* gcc.benchmarks: Rename to...
 	* gcc.beebs: ... this.
 	* run.sh: Update script to match updated test directory.
@@ -30,6 +390,7 @@
 	* .gitignore: Added to ignore test logs.
 	* run.sh: Added top level run script.
 	* site.exp: Add default site.exp.
+
 2014-03-20  James Pallister  <james.pallister@bristol.ac.uk>
 	Centralised benchmark list, so benchmarks can be excluded for each
 	platform. The list of benchmarks is embedded into configure.ac, and
