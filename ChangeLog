@@ -1,5 +1,19 @@
 2014-04-12  Pierre Langlois  <pierre.langlois@embecosm.com>
 
+	* dejagnu/baseboards/avr-gdbserver.exp: New board file for running
+	with a gdbserver.
+	* dejagnu/baseboards/avr-sim.exp: New default board file for
+	running with a simulator.
+	* dejagnu/gdb-extra: New file. This fixes a issue with loading a
+	program with dejagnu
+	* dejagnu/gdb-stub-extra: New file. Likewise but also allow GDB
+	to check the return code.
+	* run-avr.sh: New file. Run BEEBS for AVR.
+	* run.sh: Run BEEBS natively on x86.
+	* site.exp: Add AVR to the list of targets.
+
+2014-04-12  Pierre Langlois  <pierre.langlois@embecosm.com>
+
 	* lib/c-torture.exp: Keep an empty list of flags for now.
 
 2014-04-09  Simon Cook  <simon.cook@embecosm.com>

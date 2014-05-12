@@ -8,8 +8,8 @@
 #------------------------------------------------------------------------------
 
 # Explicitly set the target.
-set target_triplet x86_64-unknown-linux-gnu
-set target_alias x86
+set target_triplet $env(TARGET_TRIPLET)
+set target_alias $env(TARGET_ALIAS)
 
 # Make sure we look in the right place for the board description files. Add
 # our local boards directories
@@ -32,7 +32,14 @@ case "$target_triplet" in {
 	    set target_list { "unix" }
 	}
     }
-    
+
+    { "avr*-*-*" } {
+	if {! [info exists target_list]} {
+	    # Default is to test on the CGEN simulator
+	    set target_list { "avr-sim" }
+	}
+    }
+
     default {
 	# Any other triplet is an error.
 	error "Unknown target $target_triplet in site.exp."
