@@ -1,0 +1,59 @@
+# Copyright (C) 2014 Embecosm Limited.
+
+# Contributor Pierre Langlois <pierre.langlois@embecosm.com>
+
+# This file is a configuration file for loading a program with AVRDUDE.
+
+# This program is free software; you can redistribute it and/or modify it
+# under the terms of the GNU General Public License as published by the Free
+# Software Foundation; either version 3 of the License, or (at your option)
+# any later version.
+
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+# more details.
+
+# You should have received a copy of the GNU General Public License along
+# with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+proc energytool_spawn { board } {
+    if {[board_info $board exists energytool]} {
+	set energytool [board_info $board energytool]
+    } else {
+	perror "no energytool defined for [board_info $board name]"
+	exit 1
+    }
+
+    if {[board_info $board exists energytool,serial]} {
+	set energytool_serial [board_info $board energytool,serial]
+    } else {
+	perror "no energytool,serial defined for [board_info $board name]"
+	exit 1
+    }
+
+    if {[board_info $board exists energytool,pin]} {
+	set energytool_pin [board_info $board energytool,pin]
+    } else {
+	perror "no energytool,pin defined for [board_info $board name]"
+	exit 1
+    }
+
+    if {[board_info $board exists energytool,point]} {
+	set energytool_point [board_info $board energytool,point]
+    } else {
+	perror "no energytool,point defined for [board_info $board name]"
+	exit 1
+    }
+    set energytool_args "-m $energytool_point read $energytool_serial $energytool_pin"
+    verbose -log "spawning energytool: $energytool $energytool_args"
+    set result [catch "spawn $energytool $energytool_args" pid]
+    return $spawn_id
+}
+
+proc energytool_log { prog energy_output } {
+    set energy_log [open energy.log a]
+    puts $energy_log "Energy log for $prog:"
+    puts $energy_log "$energy_output"
+    close $energy_log
+}

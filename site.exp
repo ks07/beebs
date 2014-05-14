@@ -16,9 +16,11 @@ set target_alias $env(TARGET_ALIAS)
 if ![info exists boards_dir] {
     lappend boards_dir "[file dirname $env(DEJAGNU)]/dejagnu"
     lappend boards_dir "[file dirname $env(DEJAGNU)]/dejagnu/baseboards"
+    lappend boards_dir "[file dirname $env(DEJAGNU)]/dejagnu/config"
 } else {
     set boards_dir "[file dirname $env(DEJAGNU)]/dejagnu"
     lappend boards_dir "[file dirname $env(DEJAGNU)]/dejagnu/baseboards"
+    lappend boards_dir "[file dirname $env(DEJAGNU)]/dejagnu/config"
 }
 
 # $target_list is set by the --target_board option. If it is not set, then we

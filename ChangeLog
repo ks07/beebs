@@ -1,3 +1,15 @@
+2014-04-14  Pierre Langlois  <pierre.langlois@embecosm.com>
+
+	* dejagnu/baseboards/atmega328p-shrimp.exp: New board file for the
+	shrimp.
+	* dejagnu/baseboards/atxmega256a3bu.exp: New board file for the
+	atxmega256a3bu Xplained board.
+	* dejagnu/config/avrdude.exp: Main configuration for using avrdude to
+	flash a program and then measure it.
+	* dejagnu/config/energytool.exp: Extra procedures for spawning and
+	loggind energytool.
+	* site.exp: Add dejagnu/config to the search directories.
+
 2014-04-12  Pierre Langlois  <pierre.langlois@embecosm.com>
 
 	* dejagnu/baseboards/avr-gdbserver.exp: New board file for running

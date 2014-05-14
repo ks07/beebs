@@ -1,0 +1,45 @@
+# Copyright (C) 2014 Embecosm Limited.
+
+# Contributor Pierre Langlois <pierre.langlois@embecosm.com>
+
+# This file is a board specification for the AVR atmega328p arduino.
+
+# This program is free software; you can redistribute it and/or modify it
+# under the terms of the GNU General Public License as published by the Free
+# Software Foundation; either version 3 of the License, or (at your option)
+# any later version.
+
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+# more details.
+
+# You should have received a copy of the GNU General Public License along
+# with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+# This is a list of toolchains that are supported on this board.
+set_board_info target_install ${target_triplet}
+
+# Load the generic configuration for this board. This will define a basic set
+# of routines needed by the tool to communicate with the board.
+load_generic_config "avrdude"
+
+# energytool configuration
+set_board_info energytool "energytool"
+set_board_info energytool,serial "EE00"
+set_board_info energytool,pin "PA0"
+set_board_info energytool,point 1
+
+# avrdude configuration
+set_board_info avrdude "/opt/avrdude/bin/avrdude"
+set_board_info avrdude,config_file "/opt/avrdude/etc/avrdude.conf"
+set_board_info avrdude,programmer "arduino"
+set_board_info avrdude,part "atmega328p"
+set_board_info avrdude,port "/dev/ttyUSB0"
+set_board_info avrdude,options "-D"
+
+set_board_info compiler "[find_gcc]"
+set_board_info cflags   "-DREPEAT_FACTOR=1 -DSIGNAL_SUPPRESS -DNO_UNISTD_H -mmcu=atmega328p"
+set_board_info ldflags  "[libgloss_link_flags] [newlib_link_flags]"
+set_board_info ldscript ""
