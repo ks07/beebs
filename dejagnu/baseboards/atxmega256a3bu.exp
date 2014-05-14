@@ -25,6 +25,10 @@ set_board_info target_install ${target_triplet}
 # of routines needed by the tool to communicate with the board.
 load_generic_config "avrdude"
 
+set gluefile "/tmp/trigger.c"
+set wrap_flags ""
+set_board_info needs_status_wrapper 1
+
 # energytool configuration
 set_board_info energytool "energytool"
 set_board_info energytool,serial "EE00"
@@ -33,12 +37,7 @@ set_board_info energytool,point 1
 
 # avrdude configuration
 set_board_info avrdude "/opt/avrdude/bin/avrdude"
-set_board_info avrdude,config_file "/opt/avrdude/etc/avrdude.conf"
-set_board_info avrdude,programmer "jtag3"
-set_board_info avrdude,part "x256a3bu"
-set_board_info avrdude,options "-e"
+set_board_info avrdude,flags "-C/opt/avrdude/etc/avrdude.conf -cjtag3 -px256a3bu -e"
 
 set_board_info compiler "[find_gcc]"
-set_board_info cflags   "-DREPEAT_FACTOR=1 -DSIGNAL_SUPPRESS -DNO_UNISTD_H -mmcu=atxmega256a3b"
-set_board_info ldflags  "[libgloss_link_flags] [newlib_link_flags]"
-set_board_info ldscript ""
+set_board_info cflags   "-DREPEAT_FACTOR=$env(REPEAT_FACTOR) -DSIGNAL_SUPPRESS -DNO_UNISTD_H -mmcu=atxmega256a3b"

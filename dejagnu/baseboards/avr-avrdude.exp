@@ -2,7 +2,7 @@
 
 # Contributor Pierre Langlois <pierre.langlois@embecosm.com>
 
-# This file is a board specification for the AVR atmega328p arduino.
+# This file is a board specification for the AVR atxmega256a3bu.
 
 # This program is free software; you can redistribute it and/or modify it
 # under the terms of the GNU General Public License as published by the Free
@@ -25,17 +25,26 @@ set_board_info target_install ${target_triplet}
 # of routines needed by the tool to communicate with the board.
 load_generic_config "avrdude"
 
+set gluefile "$env(TRIGGER_FILE)"
+set wrap_flags ""
+set_board_info needs_status_wrapper 1
+
 # energytool configuration
-set_board_info energytool "energytool"
-set_board_info energytool,serial "EE00"
-set_board_info energytool,pin "PA0"
-set_board_info energytool,point 1
+set_board_info energytool "$env(ENERGYTOOL)"
+set_board_info energytool,serial "$env(ENERGYTOOL_SERIAL)"
+set_board_info energytool,pin "$env(ENERGYTOOL_PIN)"
+set_board_info energytool,point "$env(ENERGYTOOL_POINT)"
 
 # avrdude configuration
-set_board_info avrdude "/opt/avrdude/bin/avrdude"
-set_board_info avrdude,flags "-C /opt/avrdude/etc/avrdude.conf -carduino -patmega328p -P/dev/ttyUSB0 -D"
+set_board_info avrdude "$env(AVRDUDE)"
+set_board_info avrdude,flags "$env(AVRDUDE_FLAGS)"
 
 set_board_info compiler "[find_gcc]"
-set_board_info cflags   "-DREPEAT_FACTOR=1 -DSIGNAL_SUPPRESS -DNO_UNISTD_H -mmcu=atmega328p"
-set_board_info ldflags  "[libgloss_link_flags] [newlib_link_flags]"
-set_board_info ldscript ""
+set_board_info cflags   "-DREPEAT_FACTOR=$env(REPEAT_FACTOR) -DSIGNAL_SUPPRESS -DNO_UNISTD_H -mmcu=$env(AVR_MCU)"
+if { $env(AVR_HEAP_END) == "" } {
+    set_board_info ldflags "$env(AVR_LDFLAGS_EXTRA)"
+} else {
+    set_board_info ldflags "-Wl,--defsym=__heap_end=$env(AVR_HEAP_END) $env(AVR_LDFLAGS_EXTRA)"
+}
+
+set_board_info ldscript "$env(AVR_LDSCRIPT)"

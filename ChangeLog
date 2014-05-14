@@ -1,5 +1,19 @@
 2014-04-14  Pierre Langlois  <pierre.langlois@embecosm.com>
 
+	* dejagnu/baseboards/atmega328p-shrimp.exp: Make all the flags for
+	avrdude in a single variable.
+	* dejagnu/baseboards/atxmega256a3bu.exp: Likewise. Also add a trigger
+	file.
+	* dejagnu/baseboards/avr-avrdude.exp: New generic board file. This board
+	file takes its values from environment variables set by the user and the
+	run-avr.sh script.
+	* dejagnu/config/avrdude.exp: Make all the flags for avrdude in a single
+	variable.
+	* gcc.beebs/platformcode.h: Give the weak attribute to the symbols.
+	* run-avr.sh: Allow the user to set environment variables.
+
+2014-04-14  Pierre Langlois  <pierre.langlois@embecosm.com>
+
 	* dejagnu/baseboards/atmega328p-shrimp.exp: New board file for the
 	shrimp.
 	* dejagnu/baseboards/atxmega256a3bu.exp: New board file for the

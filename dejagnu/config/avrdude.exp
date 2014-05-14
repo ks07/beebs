@@ -27,38 +27,6 @@ proc avrdude_spawn { dest cmdline args } {
 	exit 1
     }
 
-    if {[board_info $dest exists avrdude,config_file]} {
-	set avrdude_config "-C [board_info $dest avrdude,config_file]"
-    } else {
-        set avrdude_config ""
-    }
-
-    if {[board_info $dest exists avrdude,programmer]} {
-	set avrdude_programmer "-c[board_info $dest avrdude,programmer]"
-    } else {
-	perror "no avrdude programmer defined for [board_info $dest name]"
-	exit 1
-    }
-
-    if {[board_info $dest exists avrdude,part]} {
-	set avrdude_part "-p[board_info $dest avrdude,part]"
-    } else {
-	perror "no avrdude part defined for [board_info $dest name]"
-	exit 1
-    }
-
-    if {[board_info $dest exists avrdude,port]} {
-	set avrdude_port "-P[board_info $dest avrdude,port]"
-    } else {
-        set avrdude_port ""
-    }
-
-    if {[board_info $dest exists avrdude,baud]} {
-	set avrdude_baud "-b[board_info $dest avrdude,baud]"
-    } else {
-        set avrdude_baud ""
-    }
-
     if {![is_remote host]} {
 	if { [which $avrdude] == 0 } {
 	    verbose -log "$avrdude missing." 3
@@ -66,16 +34,13 @@ proc avrdude_spawn { dest cmdline args } {
 	}
     }
 
-    if {[board_info $dest exists avrdude,options]} {
-	set avrdude_extra_flags [board_info $dest avrdude,options]
+    if {[board_info $dest exists avrdude,flags]} {
+	set avrdude_flags [board_info $dest avrdude,flags]
     } else {
-        set avrdude_extra_flags ""
+        set avrdude_flags ""
     }
 
-    set avrdude_options "$avrdude_config $avrdude_programmer $avrdude_part \
-                        $avrdude_port $avrdude_baud $avrdude_extra_flags"
-
-    return [eval remote_spawn host \{ "$avrdude $avrdude_options -U flash:w:$cmdline" \} ]
+    return [eval remote_spawn host \{ "$avrdude $avrdude_flags -U flash:w:$cmdline" \} ]
 }
 
 proc avrdude_wait { dest timeout } {

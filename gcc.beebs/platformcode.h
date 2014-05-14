@@ -27,8 +27,13 @@
 #define REPEAT_FACTOR   (4096)
 #endif
 
+extern void initialise_trigger() __attribute__((weak));
 void initialise_trigger() {}
+
+extern void stop_trigger() __attribute__((weak));
 void stop_trigger() {}
+
+extern void start_trigger() __attribute__((weak));
 void start_trigger() {}
 
 #endif /* __PLATFORMCODE_H__ */
