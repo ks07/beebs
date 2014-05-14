@@ -18,42 +18,36 @@
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 proc energytool_spawn { board } {
-    if {[board_info $board exists energytool]} {
-	set energytool [board_info $board energytool]
-    } else {
-	perror "no energytool defined for [board_info $board name]"
-	exit 1
-    }
+    global srcdir
 
-    if {[board_info $board exists energytool,serial]} {
-	set energytool_serial [board_info $board energytool,serial]
+    if {[board_info $board exists energytool_serial]} {
+	set energytool_serial [board_info $board energytool_serial]
     } else {
 	perror "no energytool,serial defined for [board_info $board name]"
 	exit 1
     }
 
-    if {[board_info $board exists energytool,pin]} {
-	set energytool_pin [board_info $board energytool,pin]
+    if {[board_info $board exists energytool_pin]} {
+	set energytool_pin [board_info $board energytool_pin]
     } else {
 	perror "no energytool,pin defined for [board_info $board name]"
 	exit 1
     }
 
-    if {[board_info $board exists energytool,point]} {
-	set energytool_point [board_info $board energytool,point]
+    if {[board_info $board exists energytool_point]} {
+	set energytool_point [board_info $board energytool_point]
     } else {
 	perror "no energytool,point defined for [board_info $board name]"
 	exit 1
     }
-    set energytool_args "-m $energytool_point read $energytool_serial $energytool_pin"
-    verbose -log "spawning energytool: $energytool $energytool_args"
-    set result [catch "spawn $energytool $energytool_args" pid]
+    set result [catch "spawn $srcdir/energytool.py $energytool_serial $energytool_point $energytool_pin" pid]
     return $spawn_id
 }
 
+# Write an entry to the energy data json file.
 proc energytool_log { prog energy_output } {
-    set energy_log [open energy.log a]
-    puts $energy_log "Energy log for $prog:"
-    puts $energy_log "$energy_output"
+    global energy_data
+    set energy_log [open $energy_data a]
+    puts $energy_log "{\"name\": \"$prog\", $energy_output},"
     close $energy_log
 }

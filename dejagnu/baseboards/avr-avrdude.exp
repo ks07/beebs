@@ -25,15 +25,16 @@ set_board_info target_install ${target_triplet}
 # of routines needed by the tool to communicate with the board.
 load_generic_config "avrdude"
 
+set energy_data "$env(ENERGY_DATA)"
+
 set gluefile "$env(TRIGGER_FILE)"
 set wrap_flags ""
 set_board_info needs_status_wrapper 1
 
 # energytool configuration
-set_board_info energytool "$env(ENERGYTOOL)"
-set_board_info energytool,serial "$env(ENERGYTOOL_SERIAL)"
-set_board_info energytool,pin "$env(ENERGYTOOL_PIN)"
-set_board_info energytool,point "$env(ENERGYTOOL_POINT)"
+set_board_info energytool_serial "$env(ENERGYTOOL_SERIAL)"
+set_board_info energytool_pin "$env(ENERGYTOOL_PIN)"
+set_board_info energytool_point "$env(ENERGYTOOL_POINT)"
 
 # avrdude configuration
 set_board_info avrdude "$env(AVRDUDE)"

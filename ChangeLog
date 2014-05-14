@@ -1,3 +1,21 @@
+2014-05-14  Pierre Langlois  <pierre.langlois@embecosm.com>
+
+	* .gitignore: Add *.json.
+	* energytool.py: New script. It probes for the energy measurement and
+	ouputs JSON.
+	* dejagnu/baseboards/atmega328p-shrimp.exp: Remove the energytool
+	variable. We are using the energytool.py script instead.
+	* dejagnu/baseboards/atxmega256a3bu.exp: Likewise.
+	* dejagnu/config/avrdude.exp: Likewise.
+	* dejagnu/config/energytool.exp: Likewise. Also output JSON for each
+	measurement.
+	* dejagnu/baseboards/avr-avrdude.exp: Match all the ouput of
+	energytool.py.
+	* gcc.beebs/execute.exp: Create and finalize the JSON energy data
+	gathered.
+	* run-avr.sh: Remote --energytool and add --energy-data for specifying
+	a custom JSON energy data file.
+
 2014-04-14  Pierre Langlois  <pierre.langlois@embecosm.com>
 
 	* dejagnu/baseboards/atmega328p-shrimp.exp: Make all the flags for

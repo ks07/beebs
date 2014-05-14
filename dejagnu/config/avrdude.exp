@@ -73,7 +73,7 @@ proc avrdude_load { dest prog args } {
     }
 
     expect {
-	-i $energytool_id -timeout $avrdude_time_limit -re "Energy:.+" {
+	-i $energytool_id -timeout $avrdude_time_limit -re ".+" {
             set energy_output $expect_out(buffer)
 	}
 	timeout {

@@ -38,12 +38,12 @@
 # --text-size <val>
 # --avrdude <program>
 # --avrdude-flags <val>
-# --energytool <program>
 # --energytool-serial <val>
 # --energytool-pin <val>
 # --energytool-point <val>
 # --trigger-file <file>
 # --repeat-factor <val>
+# --energy-data <file>
 
 CURDIR=$(dirname $0)
 export DEJAGNU=$CURDIR/site.exp
@@ -66,7 +66,6 @@ AVRDUDE_FLAGS="-cjtag3 -px256a3bu -C /opt/avrdude/etc/avrdude.conf -e"
 
 TRIGGER_FILE="/tmp/trigger.c"
 
-ENERGYTOOL="energytool"
 ENERGYTOOL_SERIAL="EE01"
 ENERGYTOOL_PIN="PA0"
 ENERGYTOOL_POINT=1
@@ -74,6 +73,8 @@ ENERGYTOOL_POINT=1
 REPEAT_FACTOR=1
 
 TARGET_BOARD=avr-avrdude
+
+ENERGY_DATA="energy.json"
 
 # Parse options
 until
@@ -134,11 +135,6 @@ case ${opt} in
     AVRDUDE_FLAGS="$1"
     ;;
 
-  --energytool)
-    shift
-    ENERGYTOOL="$1"
-    ;;
-
   --energytool-serial)
     shift
     ENERGYTOOL_SERIAL="$1"
@@ -164,6 +160,11 @@ case ${opt} in
     REPEAT_FACTOR="$1"
     ;;
 
+  --energy-data)
+    shift
+    ENERGY_DATA="$1"
+    ;;
+
   ?*)
     echo "Usage: ./run-avr.sh [--target-board <board>] <val>"
     echo "                    [--mcu <mcu>]"
@@ -176,12 +177,12 @@ case ${opt} in
     echo "                    [--text-size <val>]"
     echo "                    [--avrdude <program>]"
     echo "                    [--avrdude-flags <val>]"
-    echo "                    [--energytool <program>]"
     echo "                    [--energytool-serial <val>]"
     echo "                    [--energytool-pin <val>]"
     echo "                    [--energytool-point <val>]"
     echo "                    [--trigger-file <file>]"
     echo "                    [--repeat-factor <val>]"
+    echo "                    [--energy-data <file>]"
 
     exit 1
     ;;
@@ -205,7 +206,6 @@ export AVR_TEXT_SIZE
 export AVRDUDE
 export AVRDUDE_FLAGS
 
-export ENERGYTOOL
 export ENERGYTOOL_SERIAL
 export ENERGYTOOL_PIN
 export ENERGYTOOL_POINT
@@ -213,6 +213,8 @@ export ENERGYTOOL_POINT
 export TRIGGER_FILE
 
 export REPEAT_FACTOR
+
+export ENERGY_DATA
 
 runtest --target_board=${TARGET_BOARD} \
   --tool=gcc --directory=gcc.beebs \

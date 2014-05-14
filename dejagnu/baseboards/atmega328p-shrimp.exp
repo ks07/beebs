@@ -26,7 +26,6 @@ set_board_info target_install ${target_triplet}
 load_generic_config "avrdude"
 
 # energytool configuration
-set_board_info energytool "energytool"
 set_board_info energytool,serial "EE00"
 set_board_info energytool,pin "PA0"
 set_board_info energytool,point 1

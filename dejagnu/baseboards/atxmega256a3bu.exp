@@ -30,10 +30,9 @@ set wrap_flags ""
 set_board_info needs_status_wrapper 1
 
 # energytool configuration
-set_board_info energytool "energytool"
-set_board_info energytool,serial "EE00"
-set_board_info energytool,pin "PA0"
-set_board_info energytool,point 1
+set_board_info energytool_serial "EE00"
+set_board_info energytool_pin "PA0"
+set_board_info energytool_point 1
 
 # avrdude configuration
 set_board_info avrdude "/opt/avrdude/bin/avrdude"
