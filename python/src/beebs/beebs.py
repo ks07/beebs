@@ -98,7 +98,11 @@ def initialise(platform):
     initlog.info("Building beebs in {}".format(beebs_build_abs))
     os.system("mkdir -p "+beebs_build_abs)
 
-    out = pexpect.run("{}/configure --with-platform={} --host={}".format(beebs_src_abs, platform, platform_to_host[platform]), cwd=beebs_build_abs, withexitstatus=True, logfile=LogWriter(initlog, logging.DEBUG))
+    flags = ""
+    if platform != "native":
+        flags = "--with-platform={} --host={}".format(platform, platform_to_host[platform])
+
+    out = pexpect.run("{}/configure {}".format(beebs_src_abs, flags), cwd=beebs_build_abs, withexitstatus=True, logfile=LogWriter(initlog, logging.DEBUG))
     ret = out[1]
 
     if ret != 0:

@@ -1,3 +1,8 @@
+2014-05-22  James Pallister  <james.pallister@bristol.ac.uk>
+	Added support for building beens natively
+
+	* python/src/beebs/beebs.py: Added support for building beens natively
+
 2014-04-08  James Pallister  <james.pallister@bristol.ac.uk>
 	Added support files for beebs module
 
