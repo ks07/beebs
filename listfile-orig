@@ -1,0 +1,6 @@
+/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_AM01Z7PL-if00-port0:EE00:PA0:1
+/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A501U0ZZ-if00-port0:EE00:PA5:2
+/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A501U19U-if00-port0:EE00:PA4:3
+/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A501U08N-if00-port0:EE11:PA0:1
+/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A501U08U-if00-port0:EE11:PA5:3
+/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_AM01Z7PE-if00-port0:EE11:PA4:2

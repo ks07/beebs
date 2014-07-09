@@ -1,3 +1,13 @@
+# Temporary Development Branch
+
+This branch holds the temporary state of the BEEBS repository for gathering
+some data for training MAGEEC whilst BEEBSv2 is in development. This branch
+should *not* be considered stable. Please use the beebsv2 branch in the
+[mageec/beebs](https://github.com/mageec/beebs) repository instead.
+
+Note in particular that for avr-rotate to work the listfile should be
+modified and copied form listfile-orig.
+
 # BEEBS: Open Benchmarks for Energy Measurements on Embedded Platforms
 
 This repository contains the Bristol Energy Efficiency Benchmark Suite

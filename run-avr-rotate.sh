@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # BEEBS Top Level Run script for AVR
 # Copyright (C) 2014 Embecosm Limited
@@ -38,7 +38,7 @@
 
 # Default values for testing, overriden by their respective options.
 AVRDUDE="avrdude"
-AVRDUDE_FLAGS="-carduino -patmega328p -P/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_AM01Z7PL-if00-port0 -D"
+AVRDUDE_FLAGS="-carduino -patmega328p -P/dev/ttyUSB0 -D"
 
 ENERGYTOOL_SERIAL="EE00"
 ENERGYTOOL_PIN="PA0"
@@ -50,7 +50,7 @@ TARGET_BOARD=avr-avrdude
 
 ENERGY_DATA="energy.csv"
 
-TIMEOUT=30
+TIMEOUT=120
 
 # Parse options
 until
@@ -121,6 +121,36 @@ do
     shift
 done
 
+# Get us a target to execute on
+# (I believe this means we need bash)
+lockfile="$(dirname $0)/lockfile"
+listfile="$(dirname $0)/listfile"
+{
+  flock -e 200
+
+  if [ ! -s ${listfile} ]; then
+    echo "No machine list available"
+    exit 1
+  fi
+
+  # Get the top line
+  line=`head -1 ${listfile}`
+
+  # Remove the line from the file
+  tail -n +2 ${listfile} > ${listfile}tmp
+  mv ${listfile}tmp ${listfile}
+
+} 200> ${lockfile}
+
+AVRDUDE_DEVICE=`echo ${line} | cut -d ':' -f 1`
+ENERGYTOOL_SERIAL=`echo ${line} | cut -d ':' -f 2`
+ENERGYTOOL_PIN=`echo ${line} | cut -d ':' -f 3`
+ENERGYTOOL_POINT=`echo ${line} | cut -d ':' -f 4`
+AVRDUDE_FLAGS="-carduino -patmega328p -P${AVRDUDE_DEVICE} -D"
+
+echo ${AVRDUDE_FLAGS}
+
+
 export AVRDUDE
 export AVRDUDE_FLAGS
 
@@ -133,3 +163,9 @@ export ENERGY_DATA
 export TIMEOUT
 
 make RUNTESTFLAGS="--target_board=${TARGET_BOARD} measure.exp" check
+
+# Put the board we took back in the pool
+(
+  flock -e 200
+  echo ${line} >> ${listfile}
+) 200> ${lockfile}

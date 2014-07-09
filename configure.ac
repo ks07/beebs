@@ -98,7 +98,7 @@ if test x$cross_compiling == xyes ; then
 fi
 
 # Restore the saved CFLAGs, etc.
-CFLAGS=$save_CFLAGS
+CFLAGS="$save_CFLAGS $OTHER_CFLAGS"
 LDFLAGS=$save_LDFLAGS
 
 # List of the benchmarks. This list gets expanded into a variable passed
