@@ -3,8 +3,10 @@
 # Set up ts
 TS_MAXCONN=50 TS_SOCKET=/tmp/ts_execute tsp
 
-for i in {1..32768}; do
+RUN_DIRS=$(find . -maxdepth 1 -type d -name 'run-*')
+
+for rd in $RUN_DIRS; do
  (
-  cd run-$i && TS_SOCKET=/tmp/ts_execute tsp bash ../execute-pt2.sh
+  cd $rd && TS_SOCKET=/tmp/ts_execute tsp bash ../execute-pt2.sh
  )
 done
