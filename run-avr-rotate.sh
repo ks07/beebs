@@ -41,7 +41,7 @@ AVRDUDE="avrdude"
 AVRDUDE_FLAGS="-carduino -patmega328p -P/dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_Controller_0001-if00-port0 -D -v"
 ENERGYTOOL_SERIAL="MSP0"
 ENERGYTOOL_PIN="PA0"
-ENERGYTOOL_POINT=2
+ENERGYTOOL_POINT=1
 
 REPEAT_FACTOR=1
 

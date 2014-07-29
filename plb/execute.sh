@@ -7,6 +7,6 @@ RUN_DIRS=$(find . -maxdepth 1 -type d -name 'run-*')
 
 for rd in $RUN_DIRS; do
  (
-  cd $rd && TS_SOCKET=/tmp/ts_execute tsp bash ../execute-pt2.sh
+  cd $rd && TS_SOCKET=/tmp/ts_execute tsp bash -c ../execute-pt2.sh "$rd"
  )
 done
