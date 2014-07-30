@@ -242,7 +242,7 @@ _inputfile = open('matrix1','r')
 os.environ['INMAGEEC'] = "TRUE"
 
 if len(_ROUND1_POSSIBILITIES) != _ENTRIES:
-  sys.err.write("Entries != Possibilities")
+  sys.stderr.write("Entries != Possibilities\n")
   sys.exit(1)
 
 for line in _inputfile:
@@ -254,7 +254,10 @@ for line in _inputfile:
   os.chdir(STARTDIR + '/run-' + test[0])
   testlist = open('PASSES_TO_RUN','w')
   testlist.write(_PASSES_ALWAYS)
-  for i in range(1, _ENTRIES+1):
+  lower = min(_ENTRIES, len(test))
+  if len(test) != _ENTRIES:
+    sys.stderr.write("WARNING: test != Entries\n")
+  for i in xrange(1, lower):
     if test[i] == '1':
       testlist.write(_ROUND1_POSSIBILITIES[i-1])
       testlist.write('\n')
