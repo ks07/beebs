@@ -1,3 +1,21 @@
 // Scaling factors per benchmark
 2dfir 0
+aha-compress 4
+aha-mont64 6
+cnt 3
 crc32 2
+expint 5
+fasta 5
+ludcmp 3
+minver 2
+nettle-arcfour 5
+nettle-md5 2
+qurt 2
+sglib-arraybinsearch 12
+sglib-dllist 5
+sglib-hashtable 5
+sglib-listinsertsort1 5
+sglib-listsort 5
+sglib-queue 5
+sglib-rbtree 6
+sha 2
