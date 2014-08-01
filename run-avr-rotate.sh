@@ -49,7 +49,7 @@ TARGET_BOARD=avr-avrdude
 
 ENERGY_DATA="energy.csv"
 
-TIMEOUT=120
+TIMEOUT=600
 
 # Parse options
 until

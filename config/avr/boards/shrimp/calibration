@@ -6,6 +6,9 @@ cnt 3
 crc32 2
 expint 5
 fasta 5
+fibcall 0
+fft 0
+//frac 12
 ludcmp 3
 minver 2
 nettle-arcfour 5
