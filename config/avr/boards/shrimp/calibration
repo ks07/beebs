@@ -9,8 +9,8 @@ cnt 3
 cover 1
 crc 0
 crc32 2
-ctl-string 3
 ctl-stack 4
+ctl-string 3
 ctl-vector 3
 cubic 0
 //dhrystone 12
@@ -21,9 +21,9 @@ expint 5
 fac 0
 fasta 5
 fdct 3
+fft 0
 fibcall 0
 float_matmult 1
-fft 0
 //frac 12
 gdb-advance 0
 gdb-all-types 0
@@ -67,11 +67,11 @@ sglib-queue 5
 sglib-rbtree 6
 sha 2
 slre 4
-strstr 0
 sqrt 0
 st 0
 statemate 0
 stb_perlin 0
+strstr 0
 tarai 0
 ud 0
 //whetstone 12
