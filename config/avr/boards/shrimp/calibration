@@ -26,7 +26,7 @@ float_matmult 1
 fft 0
 //frac 12
 gdb-advance 0
-gdb-alltypes 0
+gdb-all-types 0
 gdb-anon 0
 gdb-arrayidx 0
 gdb-async 0
@@ -34,7 +34,7 @@ gdb-bitfields 0
 gdb-constvars 0
 gdb-store 0
 insertsort 0
-janne-complex 0
+janne_complex 0
 jfdctint 3
 lcdnum 0
 levenshtein 5
