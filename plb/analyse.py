@@ -18,6 +18,30 @@ def add_runpass(pdict, pname, run_no):
         pdict[pname] += [run_no]
         assert len(pdict[pname]) <= n_runs / 2
 
+def avg_bmark_pass(pdict, ndict, bname, pname):
+    runs = pdict[pname]
+    res = ndict[bname]
+
+    enabled = 0.0;
+    disabled = 0.0;
+    ecnt = 0;
+    dcnt = 0;
+
+    for no, nrg in enumerate(res):
+        if nrg == 0.0:
+            # Ignore any failed measurements, but show warning
+            print('WARNING: ignoring failed benchmark ({} run-{})'.format(bname, no))
+        elif no in runs:
+            enabled += nrg
+            ecnt += 1
+        else:
+            disabled += nrg
+            dcnt += 1
+
+    e_avg = enabled/ecnt
+    d_avg = disabled/dcnt
+    print('{},{},{},{},{}'.format(bname,pname,e_avg,d_avg,e_avg - d_avg))
+
 if __name__ == '__main__':
     basedir = os.getcwd()
 
@@ -62,7 +86,7 @@ if __name__ == '__main__':
                     add_runpass(pass_dict, pline, rnum)
 
         # Read energy for this run
-        with open('energy.csv', 'r', newline='') as run_energy:
+        with open('energy.csv.1', 'r', newline='') as run_energy:
             energyreader = csv.reader(run_energy)
             next(energyreader) #Skip header line
             for erow in energyreader:
@@ -70,5 +94,9 @@ if __name__ == '__main__':
 
         os.chdir(basedir)
 
-    print(pass_dict)
-    print(nrg_dict)
+    #print(pass_dict)
+    #print(nrg_dict)
+
+    for b in nrg_dict:
+        for p in pass_dict:
+            avg_bmark_pass(pass_dict, nrg_dict, b, p)
