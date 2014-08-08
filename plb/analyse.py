@@ -41,8 +41,8 @@ def avg_bmark_pass(pdict, ndict, bname, pname):
     e_avg = enabled/ecnt
     d_avg = disabled/dcnt
     diff = e_avg - d_avg
-    pcnt = diff / d_avg
-    print('{},{},{},{},{},{}%'.format(bname,pname,e_avg,d_avg,diff,pcnt))
+    pcnt = diff / d_avg * 100
+    print('{},{},{},{},{},{}%'.format(bname,pname,d_avg,e_avg,diff,pcnt))
 
 if __name__ == '__main__':
     basedir = os.getcwd()
@@ -101,6 +101,7 @@ if __name__ == '__main__':
     #print(pass_dict)
     #print(nrg_dict)
 
+    print('benchmark,pass,MDE,MEE,delta,delta %')
     for b in nrg_dict:
         for p in pass_dict:
             avg_bmark_pass(pass_dict, nrg_dict, b, p)
