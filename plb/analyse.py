@@ -42,7 +42,26 @@ def avg_bmark_pass(pdict, ndict, bname, pname):
     d_avg = disabled/dcnt
     diff = e_avg - d_avg
     pcnt = diff / d_avg * 100
-    print('{},{},{},{},{},{}%'.format(bname,pname,d_avg,e_avg,diff,pcnt))
+
+    e_sdev_sum = 0.0;
+    d_sdev_sum = 0.0;
+
+    # Calculate sample variance
+    for no, nrg in enumerate(res):
+        if nrg == 0.0:
+            # Silently ignore
+            continue
+        elif no in runs:
+            # Get the sum of deviations
+            e_sdev_sum += (nrg - e_avg)**2
+        else:
+            d_sdev_sum += (nrg - d_avg)**2
+
+    e_var = e_sdev_sum / (ecnt - 1)
+    d_var = d_sdev_sum / (dcnt - 1)
+
+    return (bname,pname,d_avg,d_var,e_avg,e_var,diff,pcnt)
+    #print('{},{},{},{},{},{},{},{}%'.format(bname,pname,d_avg,d_var,e_avg,e_var,diff,pcnt))
 
 if __name__ == '__main__':
     basedir = os.getcwd()
@@ -101,7 +120,8 @@ if __name__ == '__main__':
     #print(pass_dict)
     #print(nrg_dict)
 
-    print('benchmark,pass,MDE,MEE,delta,delta %')
+    print('benchmark,pass,MDE,DV,MEE,EV,delta,delta %')
     for b in nrg_dict:
         for p in pass_dict:
-            avg_bmark_pass(pass_dict, nrg_dict, b, p)
+            bp_info = avg_bmark_pass(pass_dict, nrg_dict, b, p)
+            print('{},{},{},{},{},{},{},{}%'.format(*bp_info))
