@@ -40,7 +40,9 @@ def avg_bmark_pass(pdict, ndict, bname, pname):
 
     e_avg = enabled/ecnt
     d_avg = disabled/dcnt
-    print('{},{},{},{},{}'.format(bname,pname,e_avg,d_avg,e_avg - d_avg))
+    diff = e_avg - d_avg
+    pcnt = diff / d_avg
+    print('{},{},{},{},{},{}%'.format(bname,pname,e_avg,d_avg,diff,pcnt))
 
 if __name__ == '__main__':
     basedir = os.getcwd()
@@ -86,11 +88,13 @@ if __name__ == '__main__':
                     add_runpass(pass_dict, pline, rnum)
 
         # Read energy for this run
-        with open('energy.csv.1', 'r', newline='') as run_energy:
-            energyreader = csv.reader(run_energy)
-            next(energyreader) #Skip header line
-            for erow in energyreader:
-                add_runrg(nrg_dict, bname=erow[0], run_no=rnum, nrg=float(erow[1]))
+        efiles = glob.glob('energy.csv*')
+        for ef in efiles:
+            with open(ef, 'r', newline='') as run_energy:
+                energyreader = csv.reader(run_energy)
+                next(energyreader) #Skip header line
+                for erow in energyreader:
+                    add_runrg(nrg_dict, bname=erow[0], run_no=rnum, nrg=float(erow[1]))
 
         os.chdir(basedir)
 
