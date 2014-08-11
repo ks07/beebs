@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 
-import os, glob, numpy, csv
+import os, glob, numpy, csv, sys
+
+# SUPPORTED MODES: 'full', 'mat', 'best'
+MODE = sys.argv[1] if len(sys.argv) > 1 else 'full'
 
 def add_runrg(ndict, bname, run_no, nrg):
     assert type(nrg) == float
@@ -120,8 +123,34 @@ if __name__ == '__main__':
     #print(pass_dict)
     #print(nrg_dict)
 
-    print('benchmark,pass,MDE,DV,MEE,EV,delta,delta %')
+
+
+    if MODE == 'full':
+        print('benchmark,pass,MDE,DV,MEE,EV,delta,delta %')
     for b in nrg_dict:
+        best_passes = []
+        worst_passes = []
+
         for p in pass_dict:
             bp_info = avg_bmark_pass(pass_dict, nrg_dict, b, p)
-            print('{},{},{},{},{},{},{},{}%'.format(*bp_info))
+
+            best_passes += [(p, bp_info[7])]
+            worst_passes += [(p, bp_info[7])]
+            if len(best_passes) > 3:
+                # Negative values are better, hence use max
+                low = max(best_passes, key=lambda x: x[1])
+                best_passes.remove(low)
+            if len(worst_passes) > 3:
+                hi = min(worst_passes, key=lambda x: x[1])
+                worst_passes.remove(hi)
+
+            if MODE == 'mat':
+                print('{}\t{}\t{}'.format(bp_info[0], bp_info[1], bp_info[7]))
+            elif MODE == 'full':
+                print('{},{},{},{},{},{},{},{}%'.format(*bp_info))
+
+        if MODE == 'best':
+            best_passes = sorted(best_passes, key=lambda x: x[1])
+            worst_passes = sorted(worst_passes, key=lambda x: x[1])
+            print('{};{};{};{};...;{};{};{}'.format(*([b] + best_passes + worst_passes)))
+
