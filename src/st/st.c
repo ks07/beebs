@@ -4,7 +4,7 @@
 
    Contributor James Pallister <james.pallister@bristol.ac.uk>
 
-   This file is part of the Bristol/Embecosm Embedded Energy Benchmark Suite.
+   This file is part of the Bristol/Embecosm Embedded Benchmark Suite.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -65,7 +65,7 @@ double ArrayA[MAX], ArrayB[MAX];
 double SumA, SumB;
 double Coef;
 
-int benchmark()
+void benchmark()
 {
 #ifdef POUT
    long StartTime, StopTime;

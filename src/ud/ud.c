@@ -4,7 +4,7 @@
 
    Contributor James Pallister <james.pallister@bristol.ac.uk>
 
-   This file is part of the Bristol/Embecosm Embedded Energy Benchmark Suite.
+   This file is part of the Bristol/Embecosm Embedded Benchmark Suite.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -115,9 +115,13 @@ int ludcmp(int nmax, int n);
 /*    return f; */
 /*  } */
 
+/* Write to CHKERR from BENCHMARK to ensure calls are not optimised away.  */
+volatile int chkerr = 0;
+
+
 void benchmark()
 {
-  int      i, j, nmax = 20, n = 5, chkerr;
+  int      i, j, nmax = 20, n = 5;
   long int /* eps, */ w;
 
   /* eps = 1.0e-6; */

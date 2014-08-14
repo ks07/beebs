@@ -53,7 +53,7 @@
 
    Contributor Pierre Langlois <pierre.langlois@embecosm.com>
 
-   This file is part of the Bristol/Embecosm Embedded Energy Benchmark Suite.
+   This file is part of the Bristol/Embecosm Embedded Benchmark Suite.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -155,11 +155,12 @@ int  qurt()
 	}
 }
 
+/* Write to RESULT in BENCHMARK so call is not optimised out.  */
+volatile int result = 0;
 
 void
 benchmark (void)
 {
-  volatile int result = 0;
   a[0] =  1.0;
   a[1] = -3.0;
   a[2] =  2.0;

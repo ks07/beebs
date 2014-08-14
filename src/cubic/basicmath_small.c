@@ -1,5 +1,28 @@
+/* BEEBS cubic benchmark
+
+   Contributor: James Pallister <james.pallister@bristol.ac.uk>
+
+   This file is part of the Bristol/Embecosm Embedded Benchmark Suite.
+
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program. If not, see <http://www.gnu.org/licenses/>. */
+
 #include "support.h"
 #include "snipmath.h"
+
+/* This scale factor will be changed to equalise the runtime of the
+   benchmarks. */
+#define SCALE_FACTOR    (REPEAT_FACTOR >> 13)
 
 int main(void)
 {
@@ -7,11 +30,8 @@ int main(void)
    double  a2 = 1.0, b2 = -4.5, c2 = 17.0, d2 = -30.0;
    double  a3 = 1.0, b3 = -3.5, c3 = 22.0, d3 = -31.0;
    double  a4 = 1.0, b4 = -13.7, c4 = 1.0, d4 = -35.0;
-   double X;
    int     solutions;
    int i;
-   unsigned long l = 0x3fed0169L;
-   struct int_sqrt q;
    long n = 0;
 
    double output[48] = {0};
@@ -33,7 +53,7 @@ int main(void)
    initialise_board();
    start_trigger();
 
-   for(n = 0; n < (REPEAT_FACTOR>>13)+1; ++n)
+   for(n = 0; n < SCALE_FACTOR; ++n)
    {
       /* solve some cubic functions */
       /* should get 3 solutions: 2, 6 & 2.5   */

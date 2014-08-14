@@ -4,7 +4,7 @@
 
    Contributor James Pallister <james.pallister@bristol.ac.uk>
 
-   This file is part of the Bristol/Embecosm Embedded Energy Benchmark Suite.
+   This file is part of the Bristol/Embecosm Embedded Benchmark Suite.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -20,6 +20,9 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>. */
 
 #include "support.h"
+
+#include "miniz.h"
+#include <string.h>
 
 /* This scale factor will be changed to equalise the runtime of the
    benchmarks. */
@@ -39,16 +42,16 @@ unsigned char compressed[1200];
 int benchmark()
 {
 	volatile int cnt=0;
-	int len = strlen(text), i;
+	int len = strlen(text);
 	unsigned long slen, dlen;
 
 	dlen = 1200;
-	mz_compress2(compressed, &dlen, text, len, 1);
+	mz_compress2(compressed, &dlen, (const unsigned char *) text, len, 1);
 	slen = 1200;
 	mz_uncompress(tocompress, &slen, compressed, dlen);
 
 	dlen = 1200;
-	mz_compress2(compressed, &dlen, text, len, 7);
+	mz_compress2(compressed, &dlen, (const unsigned char *) text, len, 7);
 	slen = 1200;
 	mz_uncompress(tocompress, &slen, compressed, dlen);
 

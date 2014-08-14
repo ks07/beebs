@@ -4,7 +4,7 @@
 
    Contributor James Pallister <james.pallister@bristol.ac.uk>
 
-   This file is part of the Bristol/Embecosm Embedded Energy Benchmark Suite.
+   This file is part of the Bristol/Embecosm Embedded Benchmark Suite.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -37,12 +37,18 @@ int array2[100];
 int benchmark()
 {
   volatile int cnt=0;
-  int tmp, found, index, i;
+  int i;
 
   for(i = 0 ;i<100; ++i)
     array2[i] = array[i];
 
+#ifdef QUICK_SORT
   SGLIB_ARRAY_SINGLE_QUICK_SORT(int, array2, 100, SGLIB_NUMERIC_COMPARATOR);
+#elif defined HEAP_SORT
+  SGLIB_ARRAY_SINGLE_HEAP_SORT(int, array2, 100, SGLIB_NUMERIC_COMPARATOR);
+#else
+#error "Expected QUICK_SORT or HEAP_SORT to be defined"
+#endif
 
   return cnt;
 }

@@ -4,7 +4,7 @@
 
    Contributor James Pallister <james.pallister@bristol.ac.uk>
 
-   This file is part of the Bristol/Embecosm Embedded Energy Benchmark Suite.
+   This file is part of the Bristol/Embecosm Embedded Benchmark Suite.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "sglib.h"
+#include <stdlib.h>
 
 /* This scale factor will be changed to equalise the runtime of the
    benchmarks. */

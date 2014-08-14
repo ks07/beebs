@@ -42,7 +42,7 @@
 
    Contributor James Pallister <james.pallister@bristol.ac.uk>
 
-   This file is part of the Bristol/Embecosm Embedded Energy Benchmark Suite.
+   This file is part of the Bristol/Embecosm Embedded Benchmark Suite.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -117,13 +117,7 @@ main()
 	long LOOP;
 	int II, JJ;
 
-	/* added for this version */
-	long loopstart;
-	long startsec, finisec;
-	float KIPS;
-	int continuous;
-
-LCONT:
+/*LCONT:*/
 /*
 C
 C	Start benchmark timing at this point.

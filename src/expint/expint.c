@@ -14,7 +14,7 @@
 
    Contributor Pierre Langlois <pierre.langlois@embecosm.com>
 
-   This file is part of the Bristol/Embecosm Embedded Energy Benchmark Suite.
+   This file is part of the Bristol/Embecosm Embedded Benchmark Suite.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -40,7 +40,7 @@ long int expint(int n, long int x);
 
 long int foo(long int x)
 {
-  return x*x+(8*x)<<4-x;
+  return (x*x+(8*x))<<(4-x);
 }
 
 
@@ -101,11 +101,14 @@ long int expint(int n, long int x)
   return ans;
 }
 
+/* The benchmark result is a volatile global, writing to this ensures
+   the call inside BENCHMARK is not optimised away.  */
+volatile int benchmark_result = 0;
 
 void
 benchmark (void)
 {
-  volatile int i = expint(50,1);
+  benchmark_result = expint(50,1);
 }
 
 

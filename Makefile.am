@@ -2,8 +2,7 @@
 #
 #   Copyright (C) 2013 Embecosm Limited and University of Bristol
 #
-#   This file is part of the Bristol/Embecosm Energy Efficiency Benchmark
-#   Suite.
+#   This file is part of the Bristol/Embecosm Embedded Benchmark Suite.
 #
 #   Contributor: James Pallister <james.pallister@bristol.ac.uk>
 #
@@ -33,3 +32,8 @@ EXTRA_DEJAGNU_SITE_CONFIG = $(top_builddir)/dejagnu/site.exp
 EXTRA_DIST= beebs.test \
             dejagnu \
             config
+
+# Libtool dependency
+all: libtool
+libtool: $(LIBTOOL_DEPS)
+	$(SHELL) ./config.status libtool

@@ -5,7 +5,7 @@
 
    Contributor Pierre Langlois <pierre.langlois@embecosm.com>
 
-   This file is part of the Bristol/Embecosm Embedded Energy Benchmark Suite.
+   This file is part of the Bristol/Embecosm Embedded Benchmark Suite.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -194,8 +194,8 @@ long out_data[720]={
  *--------------------------------------------------*/
 
 
-void fir_filter_int(long* in,long* out,long in_len,
-                    long* coef,long coef_len,
+void fir_filter_int(const long* in,long* out,long in_len,
+                    const long* coef,long coef_len,
                     long scale);
 
 /**************************************************************************
@@ -220,13 +220,13 @@ No return value.
 
 *************************************************************************/
 
-void fir_filter_int(long* in,long* out,long in_len,
-                    long* coef,long coef_len,
+void fir_filter_int(const long* in,long* out,long in_len,
+                    const long* coef,long coef_len,
                     long scale)
 {
   long i,j,coef_len2,acc_length;
   long acc;
-  long *in_ptr,*data_ptr,*coef_start,*coef_ptr,*in_end;
+  const long *in_ptr, *data_ptr, *coef_start, *coef_ptr, *in_end;
 
   /* set up for coefficients */
   coef_start = coef;

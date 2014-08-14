@@ -1,3 +1,18 @@
+/* This file is part of the Bristol/Embecosm Embedded Benchmark Suite.
+
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program. If not, see <http://www.gnu.org/licenses/>. */
+
 /*
 
   This is SGLIB version 1.0.3
@@ -393,9 +408,8 @@
 }
 
 #define SGLIB_LIST_LEN(type, list, next, result) {\
-  type *_ce_;\
   (result) = 0;\
-  SGLIB_LIST_MAP_ON_ELEMENTS(type, list, _ce_, next, (result)++);\
+  SGLIB_LIST_MAP_ON_ELEMENTS(type, list, __UNUSED__, next, (result)++);\
 }
 
 #define SGLIB_LIST_REVERSE(type, list, next) {\
@@ -648,7 +662,7 @@
 }
 
 #define SGLIB_DL_LIST_SORT(type, list, comparator, previous, next) {\
-  type *_dll_, *_dlp_, *_dlt_;\
+  type *_dll_;\
   _dll_ = (list);\
   if (_dll_ != NULL) {\
     for(; _dll_->previous!=NULL; _dll_=_dll_->previous) ;\

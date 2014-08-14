@@ -4,7 +4,7 @@
 
    Contributor James Pallister <james.pallister@bristol.ac.uk>
 
-   This file is part of the Bristol/Embecosm Embedded Energy Benchmark Suite.
+   This file is part of the Bristol/Embecosm Embedded Benchmark Suite.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -84,10 +84,8 @@ void sort(unsigned long n)
 {
 	unsigned long i,ir=n,j,k,l=1;
 	int jstack=0;
-	int flag;
 	float a,temp;
 
-	flag = 0;
 	for (;;) {
 		if (ir-l < M) {
 			for (j=l+1;j<=ir;j++) {
@@ -139,6 +137,7 @@ void sort(unsigned long n)
 	}
 }
 
+void
 benchmark()
 {
   sort(20);

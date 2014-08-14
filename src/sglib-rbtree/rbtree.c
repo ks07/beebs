@@ -4,7 +4,7 @@
 
    Contributor James Pallister <james.pallister@bristol.ac.uk>
 
-   This file is part of the Bristol/Embecosm Embedded Energy Benchmark Suite.
+   This file is part of the Bristol/Embecosm Embedded Benchmark Suite.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "sglib.h"
+#include <stdlib.h>
 
 /* This scale factor will be changed to equalise the runtime of the
    benchmarks. */
@@ -49,7 +50,7 @@ int array[100] = {14, 66, 12, 41, 86, 69, 19, 77, 68, 38, 26, 42, 37, 23, 17, 29
 
 int benchmark()
 {
-  int                           i,a;
+  int                           i;
   struct rbtree                 e, *t, *the_tree, *te;
   struct sglib_rbtree_iterator  it;
   int cnt;

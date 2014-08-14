@@ -1,7 +1,30 @@
+/* This file is part of the Bristol/Embecosm Embedded Benchmark Suite.
+
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+   Code originally from:  From http://www.snippets.org/.
+   This code is FREE with no restrictions. */
+
 /* Crc - 32 BIT ANSI X3.66 CRC checksum files */
 
-#include "crc.h"
 #include "support.h"
+
+/* This scale factor will be changed to equalise the runtime of the
+   benchmarks. */
+#define SCALE_FACTOR    (REPEAT_FACTOR >> 5)
+
+#include <stdlib.h>
 
 #ifdef __TURBOC__
 #pragma warn -cln
@@ -18,6 +41,13 @@
   |* PUB 78 says that the 32-bit FCS reduces otherwise undetected       *|
   |* errors by a factor of 10^-5 over 16-bit FCS.                       *|
   \**********************************************************************/
+
+/* Some basic types.  */
+typedef unsigned char  BYTE;
+typedef unsigned long  DWORD;
+typedef unsigned short WORD;
+
+#define UPDC32(octet,crc) (crc_32_tab[((crc)^((BYTE)octet)) & 0xff] ^ ((crc) >> 8))
 
 /* Need an unsigned type capable of holding 32 bits; */
 
@@ -115,12 +145,6 @@ const static UNS_32_BITS crc_32_tab[] = { /* CRC polynomial 0xedb88320 */
    0xb40bbe37, 0xc30c8ea1, 0x5a05df1b, 0x2d02ef8d
 };
 
-DWORD updateCRC32(unsigned char ch, DWORD crc)
-{
-   return UPDC32(ch, crc);
-}
-
-
 DWORD crc32pseudo()
 {
    int i;
@@ -144,21 +168,24 @@ int main(int argc, char *argv[])
    /* TODO: Check if this difference is because of uninitialised bits in
     * memory. If so, initialise it to 0. */
 #ifdef __LP64__
-   DWORD check_output = 18446744069884456117U;
+   // DWORD check_output = 18446744069884456117U;
 #else
    /* Assume 32 bits */
-   DWORD check_output = 469871797;
+   // DWORD check_output = 469871797;
 #endif
 
    initialise_board();
    start_trigger();
 
-   for(n = 0; n < REPEAT_FACTOR>>5; ++n)
+   for(n = 0; n < SCALE_FACTOR; ++n)
    {
       output = crc32pseudo();
    }
 
    stop_trigger();
+
+   /* Silence compiler warning about unused variable.  */
+   (void) output;
 
    /* Verify that we have the correct result. */
    return 0;// - (output != check_output);

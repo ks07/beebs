@@ -1,3 +1,18 @@
+/* This file is part of the Bristol/Embecosm Embedded Benchmark Suite.
+
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program. If not, see <http://www.gnu.org/licenses/>. */
+
 /*
 
   This is SGLIB version 1.0.3
@@ -1443,7 +1458,7 @@ http://www.cis.ohio-state.edu/~gurari/course/cis680/cis680Ch11.html
 */
 
 #define SGLIB___RBTREE_FIX_INSERTION_DISCREPANCY(type, tree, leftt, rightt, bits, RED, BLACK) {\
-  type *t, *tl, *a, *b, *c, *ar, *bl, *br, *cl, *cr;\
+  type *t, *tl, *a, *b, *c, *br, *cl, *cr;\
   t = *tree;\
   tl = t->leftt;\
   if (t->rightt!=NULL && SGLIB___GET_VALUE(t->rightt->bits)==RED) {\
@@ -1466,8 +1481,8 @@ http://www.cis.ohio-state.edu/~gurari/course/cis680/cis680Ch11.html
         SGLIB___SET_VALUE(b->bits,BLACK);\
         *tree = b;\
       } else if (tl->rightt!=NULL && SGLIB___GET_VALUE(tl->rightt->bits)==RED) {\
-        a = t; b = tl; ar=a->rightt;\
-        bl=b->leftt; c=b->rightt;\
+        a = t; b = tl;\
+        c=b->rightt;\
         cl=c->leftt; cr=c->rightt;\
         b->rightt = cl;\
         a->leftt = cr;\
@@ -1482,10 +1497,9 @@ http://www.cis.ohio-state.edu/~gurari/course/cis680/cis680Ch11.html
 }
 
 #define SGLIB___RBTREE_FIX_DELETION_DISCREPANCY(type, tree, leftt, rightt, bits, RED, BLACK, res) {\
-  type  *t, *a, *b, *c, *d, *ar, *bl, *br, *cl, *cr, *dl, *dr;\
+  type  *t, *a, *b, *c, *d, *bl, *br, *cl, *cr, *dl, *dr;\
   t = a = *tree;\
   assert(t!=NULL);\
-  ar = a->rightt;\
   b = t->leftt;\
   if (b==NULL) {\
     assert(SGLIB___GET_VALUE(t->bits)==RED);\
@@ -1763,12 +1777,13 @@ int sglib_##type##_len(type *t) {\
     int   n;\
     type  *e;\
     n = 0;\
-    SGLIB_BIN_TREE_MAP_ON_ELEMENTS(type, t, e, left, right, n++);\
-    return(n);\
+    SGLIB_BIN_TREE_MAP_ON_ELEMENTS(type, t, e, left, right, {n++; (void) e;}); \
+    (void) e; \
+    return(n); \
 }\
 \
 void sglib__##type##_it_compute_current_elem(struct sglib_##type##_iterator *it) {\
-    int   i,j,cmp;\
+    int   i,j;\
     type  *s, *eqt;\
     int   (*subcomparator)(type *, type *);\
     eqt = it->equalto;\

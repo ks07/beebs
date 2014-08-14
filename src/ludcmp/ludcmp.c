@@ -58,7 +58,7 @@
 
    Contributor Pierre Langlois <pierre.langlois@embecosm.com>
 
-   This file is part of the Bristol/Embecosm Embedded Energy Benchmark Suite.
+   This file is part of the Bristol/Embecosm Embedded Benchmark Suite.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -140,12 +140,14 @@ ludcmp( /* int nmax, */ int n, float eps)
 
 }
 
+/* Write to CHKERR from BENCHMARK to ensure that the core call within
+   BENCHMARK is not optimised away.  */
+volatile int chkerr;
 
 void
 benchmark (void)
 {
   int             i, j/*, nmax = 50*/, n = 5;
-  volatile int chkerr;
   float          eps, w;
 
   eps = 1.0e-6;

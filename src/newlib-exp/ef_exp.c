@@ -13,7 +13,7 @@
 
    Contributor Pierre Langlois <pierre.langlois@embecosm.com>
 
-   This file is part of the Bristol/Embecosm Embedded Energy Benchmark Suite.
+   This file is part of the Bristol/Embecosm Embedded Benchmark Suite.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -133,12 +133,12 @@ P5   =  4.1381369442e-08; /* 0x3331bb4c */
    benchmarks. */
 #define SCALE_FACTOR    (REPEAT_FACTOR >> 0)
 
+/* Tell the compiler not to optimize out calls in BENCHMARK. */
+volatile float result = 0;
 
 void
 benchmark (void)
 {
-  /* Tell the compiler not to optimize out these calls. */
-  volatile float result = 0;
   result = __ieee754_expf(1);
   result = __ieee754_expf(2);
   result = __ieee754_expf(3);

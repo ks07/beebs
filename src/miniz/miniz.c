@@ -1,3 +1,20 @@
+/* BEEBS miniz benchmark.
+
+   This file is part of the Bristol/Embecosm Embedded Benchmark Suite.
+
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program. If not, see <http://www.gnu.org/licenses/>. */
+
 /* miniz.c v1.15 - public domain deflate/inflate, zlib-subset, ZIP reading/writing/appending, PNG writing
    See "unlicense" statement at the end of this file.
    Rich Geldreich <richgel99@gmail.com>, last updated Oct. 13, 2013
@@ -159,6 +176,7 @@
 #ifndef MINIZ_HEADER_INCLUDED
 #define MINIZ_HEADER_INCLUDED
 
+#include "miniz.h"
 #include <stdlib.h>
 
 // Defines to completely disable specific portions of miniz.c:
@@ -176,7 +194,7 @@
 //#define MINIZ_NO_ARCHIVE_APIS
 
 // Define MINIZ_NO_ARCHIVE_APIS to disable all writing related ZIP archive API's.
-//#define MINIZ_NO_ARCHIVE_WRITING_APIS
+#define MINIZ_NO_ARCHIVE_WRITING_APIS
 
 // Define MINIZ_NO_ZLIB_APIS to remove all ZLIB-style compression/decompression API's.
 //#define MINIZ_NO_ZLIB_APIS
@@ -229,8 +247,6 @@ extern "C" {
 
 // ------------------- zlib-style API Definitions.
 
-// For more compatibility with zlib, miniz.c uses unsigned long for some parameters/struct members. Beware: mz_ulong can be either 32 or 64-bits!
-typedef unsigned long mz_ulong;
 
 // mz_free() internally uses the MZ_FREE() macro (which by default calls free() unless you've modified the MZ_MALLOC macro) to release a block allocated from the heap.
 void mz_free(void *p);
@@ -383,10 +399,6 @@ int mz_inflate(mz_streamp pStream, int flush);
 
 // Deinitializes a decompressor.
 int mz_inflateEnd(mz_streamp pStream);
-
-// Single-call decompression.
-// Returns MZ_OK on success, or one of the error codes from mz_inflate() on failure.
-int mz_uncompress(unsigned char *pDest, mz_ulong *pDest_len, const unsigned char *pSource, mz_ulong source_len);
 
 // Returns a string description of the specified error code, or NULL if the error code is invalid.
 const char *mz_error(int err);
@@ -1013,7 +1025,9 @@ void mz_free(void *p)
 
 static void *def_alloc_func(void *opaque, size_t items, size_t size) { (void)opaque, (void)items, (void)size; return MZ_MALLOC(items * size); }
 static void def_free_func(void *opaque, void *address) { (void)opaque, (void)address; MZ_FREE(address); }
-static void *def_realloc_func(void *opaque, void *address, size_t items, size_t size) { (void)opaque, (void)address, (void)items, (void)size; return MZ_REALLOC(address, items * size); }
+#ifndef MINIZ_NO_ARCHIVE_WRITING_APIS
+    static void *def_realloc_func(void *opaque, void *address, size_t items, size_t size) { (void)opaque, (void)address, (void)items, (void)size; return MZ_REALLOC(address, items * size); }
+#endif // #ifndef MINIZ_NO_ARCHIVE_WRITING_APIS
 
 const char *mz_version(void)
 {
@@ -3967,7 +3981,6 @@ mz_bool mz_zip_reader_extract_file_to_file(mz_zip_archive *pZip, const char *pAr
 
 // ------------------- .ZIP archive writing
 
-#define MINIZ_NO_ARCHIVE_WRITING_APIS
 #ifndef MINIZ_NO_ARCHIVE_WRITING_APIS
 
 static void mz_write_le16(mz_uint8 *p, mz_uint16 v) { p[0] = (mz_uint8)v; p[1] = (mz_uint8)(v >> 8); }

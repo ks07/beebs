@@ -14,49 +14,48 @@
 
 @SET_MAKE@
 
-#   Makefile.am for building a BEEBS benchmark
+# Makefile.am for building a BEEBS benchmark
 #
-#   Copyright (C) 2014 Embecosm Limited and University of Bristol
+# Copyright (C) 2014 Embecosm Limited and University of Bristol
 #
-#   This file is part of the Bristol/Embecosm Energy Efficiency Benchmark
-#   Suite.
+# This file is part of the Bristol/Embecosm Embedded Benchmark Suite.
 #
-#   Contributor: Pierre Langlois <pierre.langlois@embecosm.com>
+# Contributor: Pierre Langlois <pierre.langlois@embecosm.com>
 #
-#   This program is free software: you can redistribute it and/or modify
-#   it under the terms of the GNU General Public License as published by
-#   the Free Software Foundation, either version 3 of the License, or
-#   (at your option) any later version.
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
 #
-#   This program is distributed in the hope that it will be useful,
-#   but WITHOUT ANY WARRANTY; without even the implied warranty of
-#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#   GNU General Public License for more details.
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
 #
-#   You should have received a copy of the GNU General Public License
-#   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#   Common makefile.am fragments for building a BEEBS benchmark
+# Common makefile.am fragments for building a BEEBS benchmark
 #
-#   Copyright (C) 2013 Embecosm Limited and University of Bristol
+# Copyright (C) 2013 Embecosm Limited and University of Bristol
 #
-#   This file is part of the Bristol/Embecosm Energy Efficiency Benchmark
-#   Suite.
+# This file is part of the Bristol/Embecosm Embedded Benchmark Suite
+# Suite.
 #
-#   Contributor: James Pallister <james.pallister@bristol.ac.uk>
+# Contributor: James Pallister <james.pallister@bristol.ac.uk>
 #
-#   This program is free software: you can redistribute it and/or modify
-#   it under the terms of the GNU General Public License as published by
-#   the Free Software Foundation, either version 3 of the License, or
-#   (at your option) any later version.
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
 #
-#   This program is distributed in the hope that it will be useful,
-#   but WITHOUT ANY WARRANTY; without even the implied warranty of
-#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#   GNU General Public License for more details.
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
 #
-#   You should have received a copy of the GNU General Public License
-#   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 VPATH = @srcdir@
 am__is_gnu_make = test -n '$(MAKEFILE_LIST)' && test -n '$(MAKELEVEL)'
@@ -122,7 +121,6 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-target_triplet = @target@
 bin_PROGRAMS = nettle-arcfour$(EXEEXT)
 DIST_COMMON = $(top_srcdir)/src/common.mk.am $(srcdir)/Makefile.in \
 	$(srcdir)/Makefile.am $(top_srcdir)/build-aux/depcomp
@@ -237,7 +235,6 @@ CONFIG_CFLAGS = @CONFIG_CFLAGS@
 CONFIG_LDFLAGS = @CONFIG_LDFLAGS@
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
-CROSS_COMPILER_CHECK = @CROSS_COMPILER_CHECK@
 CYGPATH_W = @CYGPATH_W@
 DEFS = @DEFS@
 DEPDIR = @DEPDIR@
@@ -262,6 +259,7 @@ LDFLAGS = @LDFLAGS@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
 LIBTOOL = @LIBTOOL@
+LIBTOOL_DEPS = @LIBTOOL_DEPS@
 LIPO = @LIPO@
 LN_S = @LN_S@
 LTLIBOBJS = @LTLIBOBJS@
@@ -289,6 +287,8 @@ SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRIP = @STRIP@
 VERSION = @VERSION@
+WARN_CFLAGS = @WARN_CFLAGS@
+WERROR_CFLAGS = @WERROR_CFLAGS@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
@@ -337,11 +337,7 @@ sbindir = @sbindir@
 sharedstatedir = @sharedstatedir@
 srcdir = @srcdir@
 sysconfdir = @sysconfdir@
-target = @target@
 target_alias = @target_alias@
-target_cpu = @target_cpu@
-target_os = @target_os@
-target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
@@ -354,10 +350,12 @@ platform_src =  \
 # If there is a benchmark calibration file, this specifies the shifting
 # of the repeat factor. If grep doesn't find the program, then we specify
 # 0 as the default. This is the default if a calibration file is not found
-@CALIBRATION_TRUE@calib = (egrep "\b$(bin_PROGRAMS)\b" $(top_srcdir)/config/@ARCH@/boards/@BOARD@/calibration \
+@CALIBRATION_TRUE@calib = (egrep "^\b$(bin_PROGRAMS)\b" \
+@CALIBRATION_TRUE@	        $(top_srcdir)/config/@ARCH@/boards/@BOARD@/calibration \
 @CALIBRATION_TRUE@		|| echo "0 0") | cut -d " " -f 2
 
-AM_CFLAGS = -I $(top_srcdir)/include \
+AM_CFLAGS = $(WERROR_CFLAGS) $(WARN_CFLAGS) \
+		  -I $(top_srcdir)/include \
 		  -I $(top_srcdir)/config/@ARCH@/boards/@BOARD@/ \
 		  -I $(top_srcdir)/config/@ARCH@/chips/@CHIP@/ \
 		  "-DCALIB_SCALE=$(shell $(calib))" \

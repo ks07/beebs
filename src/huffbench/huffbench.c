@@ -30,7 +30,7 @@
 
    Contributor James Pallister <james.pallister@bristol.ac.uk>
 
-   This file is part of the Bristol/Embecosm Embedded Energy Benchmark Suite.
+   This file is part of the Bristol/Embecosm Embedded Benchmark Suite.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -441,23 +441,8 @@ void compdecomp(byte * data, size_t data_len)
 
 int benchmark()
 {
-    int i;
-
-    // do we have verbose output?
-    bool ga_testing = false;
-
     // initialization
     byte * test_data = generate_test_data(TEST_SIZE);
-
-    /*
-    FILE * before = fopen("before","wb");
-    fwrite(test_data,1,TEST_SIZE,before);
-    fclose(before);
-    */
-
-    // get starting time
-    //struct timespec start, stop;
-    //clock_gettime(CLOCK_REALTIME,&start);
 
     // what we're timing
     compdecomp(test_data,TEST_SIZE);

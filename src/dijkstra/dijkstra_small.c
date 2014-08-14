@@ -1,7 +1,36 @@
+/* This file is part of the Bristol/Embecosm Embedded Benchmark Suite.
+
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program. If not, see <http://www.gnu.org/licenses/>. */
+
+/* The original LICENCE file that
+ * accompanied this source file:
+ **********************************
+ *                                *
+ * Matt hacked this together.     *
+ *                                *
+ * It is GPL'ed.                  *
+ *                                *
+ **********************************/
+
 #include <stdio.h>
 #include <stdlib.h>
 
 #include "support.h"
+
+/* This scale factor will be changed to equalise the runtime of the
+   benchmarks. */
+#define SCALE_FACTOR    (REPEAT_FACTOR >> 9)
 
 #define NUM_NODES                          10
 #define NONE                               9999
@@ -152,7 +181,7 @@ int main() {
    start_trigger();
 
    /* finds 10 shortest paths between nodes */
-   for(n = 0; n < REPEAT_FACTOR >> 9; ++n) {
+   for(n = 0; n < SCALE_FACTOR; ++n) {
       output_count = 0;
       for(j = 0; j < NUM_NODES; j++) {
          for (i=0; i < NUM_NODES; i++) {
