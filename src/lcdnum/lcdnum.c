@@ -23,13 +23,13 @@
 
 /* This scale factor will be changed to equalise the runtime of the
    benchmarks. */
-#define SCALE_FACTOR    (REPEAT_FACTOR >> 0)
+#define SCALE_FACTOR    0xFFFF//(REPEAT_FACTOR << 3)
 
 /* MDH WCET BENCHMARK SUITE. */
 
 /* 2012/09/28, Jan Gustafsson <jan.gustafsson@mdh.se>
  * Changes:
- *  - The volatile variable n controls a loop, which is not correct. The loop will not terminate. Fixed.
+ *  - The volatile variable n controls a loop, which is not correct. The loop will not terminate. Fixed.
  */
 
 /***********************************************************************
@@ -100,7 +100,7 @@ int benchmark(void)
 int
 main (void)
 {
-  int i;
+  unsigned int i;
 
   initialise_board ();
   start_trigger ();

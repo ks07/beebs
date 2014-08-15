@@ -24,7 +24,7 @@
 
 /* This scale factor will be changed to equalise the runtime of the
    benchmarks. */
-#define SCALE_FACTOR    (REPEAT_FACTOR >> 0)
+#define SCALE_FACTOR    (REPEAT_FACTOR >> 3)
 
 int array[100] = {14, 66, 12, 41, 86, 69, 19, 77, 68, 38, 26, 42, 37, 23, 17, 29, 55, 13,
   90, 92, 76, 99, 10, 54, 57, 83, 40, 44, 75, 33, 24, 28, 80, 18, 78, 32, 93, 89, 52, 11,
@@ -43,8 +43,14 @@ int benchmark()
     array2[i] = array[i];
 
 #ifdef QUICK_SORT
+  /* Workaround for calibration issue #13 */
+  #undef SCALE_FACTOR
+  #define SCALE_FACTOR (REPEAT_FACTOR >> 3)
   SGLIB_ARRAY_SINGLE_QUICK_SORT(int, array2, 100, SGLIB_NUMERIC_COMPARATOR);
 #elif defined HEAP_SORT
+  /* Workaround for calibration issue #13 */
+  #undef SCALE_FACTOR
+  #define SCALE_FACTOR (REPEAT_FACTOR >> 4)
   SGLIB_ARRAY_SINGLE_HEAP_SORT(int, array2, 100, SGLIB_NUMERIC_COMPARATOR);
 #else
 #error "Expected QUICK_SORT or HEAP_SORT to be defined"

@@ -59,7 +59,7 @@
 
 /* This scale factor will be changed to equalise the runtime of the
    benchmarks. */
-#define SCALE_FACTOR    (REPEAT_FACTOR >> 0)
+#define SCALE_FACTOR   0xFFFF //(REPEAT_FACTOR << 3)
 
 
 struct DATA {
@@ -111,7 +111,7 @@ binary_search(int x)
 int
 main (void)
 {
-  int i;
+  unsigned int i;
 
   initialise_board ();
   start_trigger ();

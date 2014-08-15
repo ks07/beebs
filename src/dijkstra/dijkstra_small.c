@@ -30,7 +30,7 @@
 
 /* This scale factor will be changed to equalise the runtime of the
    benchmarks. */
-#define SCALE_FACTOR    (REPEAT_FACTOR >> 9)
+#define SCALE_FACTOR    (REPEAT_FACTOR >> 8)
 
 #define NUM_NODES                          10
 #define NONE                               9999

@@ -22,7 +22,7 @@
 
 /* This scale factor will be changed to equalise the runtime of the
    benchmarks. */
-#define SCALE_FACTOR    (REPEAT_FACTOR >> 13)
+#define SCALE_FACTOR    (REPEAT_FACTOR >> 12)
 
 int main(void)
 {

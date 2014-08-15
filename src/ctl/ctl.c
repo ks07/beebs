@@ -24,7 +24,8 @@
 
 /* This scale factor will be changed to equalise the runtime of the
    benchmarks. */
-#define SCALE_FACTOR    (REPEAT_FACTOR >> 0)
+/* Workaround for calibration issue #13 */
+#define SCALE_FACTOR    (REPEAT_FACTOR >> 3)
 
 typedef struct {
   int a, b;

@@ -23,7 +23,7 @@
 
 /* This scale factor will be changed to equalise the runtime of the
    benchmarks. */
-#define SCALE_FACTOR    (REPEAT_FACTOR >> 0)
+#define SCALE_FACTOR    (REPEAT_FACTOR << 3)
 
 /* MDH WCET BENCHMARK SUITE. File version $Id: statemate.c,v 1.3 2005/11/11 10:32:32 ael01 Exp $ */
 
@@ -1304,7 +1304,7 @@ int benchmark(void)
 int
 main (void)
 {
-  int i;
+  unsigned int i;
 
   initialise_board ();
   start_trigger ();
