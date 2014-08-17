@@ -46,7 +46,9 @@ foreach benchmark $benchmarks {
 	    -i $energytool_id -timeout $measurement_timeout -re "(\[0-9\.e\-\]+,){4}\[0-9\.e\-\]+" {
 		set energy_output $expect_out(buffer)
 	    }
-	    timeout {}
+	    timeout {
+		warning "Benchmark $benchmark timed out!" 0
+	    }
 	    eof {}
 	}
 
