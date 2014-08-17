@@ -37,23 +37,31 @@ foreach benchmark $benchmarks {
     set energytool_id [energytool_spawn "$env(ENERGYTOOL_SERIAL)" "$env(ENERGYTOOL_POINT)" "$env(ENERGYTOOL_PIN)"]
 
     # Launch benchmark
-    beebs_load "$objdir/src/$benchmark/$benchmark" ""
+    set load_state [beebs_load "$objdir/src/$benchmark/$benchmark" ""]
 
-    expect {
-        -i $energytool_id -timeout $measurement_timeout -re "(\[0-9\.e\-\]+,){4}\[0-9\.e\-\]+" {
-            set energy_output $expect_out(buffer)
-        }
-        timeout {}
-        eof {}
-    }
+    if { [lindex $load_state 0] == "pass" } {
+	#Only continue the test if the load operation succeeded.
 
-    verbose -log "Energy for $benchmark: $energy_output"
-    set energy_log [open $energy_data a]
-    if { $energy_output == "" } {
-        # Output zeros if the measurement was unsuccessful.
-        puts $energy_log "$benchmark,0,0,0,0,0"
+	expect {
+	    -i $energytool_id -timeout $measurement_timeout -re "(\[0-9\.e\-\]+,){4}\[0-9\.e\-\]+" {
+		set energy_output $expect_out(buffer)
+	    }
+	    timeout {}
+	    eof {}
+	}
+
+	verbose -log "Energy for $benchmark: $energy_output"
+	set energy_log [open $energy_data a]
+	if { $energy_output == "" } {
+	    # Output zeros if the measurement was unsuccessful.
+	    puts $energy_log "$benchmark,0,0,0,0,0"
+	} else {
+	    puts $energy_log "$benchmark,$energy_output"
+	}
+	close $energy_log
     } else {
-        puts $energy_log "$benchmark,$energy_output"
+	set energy_log [open $energy_data a]
+	puts $energy_log "$benchmark,0,0,0,0,0"
+	close $energy_log
     }
-    close $energy_log
 }
