@@ -15,7 +15,7 @@ cd ${ROOT}/run-$1
 date > output.log
 export MAGEEC_EXECUTELIST=${ROOT}/run-$1/PASSES_TO_RUN
 
-OTHER_CFLAGS="-save-temps -fplugin=/usr/local/lib/libmageec_gcc.so -fplugin-arg-libmageec_gcc-dumppasses -O2" \
+CFLAGS="--disable-werror -save-temps -fplugin=/usr/local/lib/libmageec_gcc.so -fplugin-arg-libmageec_gcc-dumppasses -O2" \
 	${ROOT}/beebs/configure --host=avr --with-chip=atmega328p \
 	--with-board=shrimp >> output.log 2>&1
 if [ $? -gt 0 ]; then
