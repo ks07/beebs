@@ -15,8 +15,8 @@ cd ${ROOT}/run-$1
 date > output.log
 export MAGEEC_EXECUTELIST=${ROOT}/run-$1/PASSES_TO_RUN
 
-CFLAGS="--disable-werror -save-temps -fplugin=/usr/local/lib/libmageec_gcc.so -fplugin-arg-libmageec_gcc-dumppasses -O2" \
-	${ROOT}/beebs/configure --host=avr --with-chip=atmega328p \
+CFLAGS="-save-temps -fplugin=/usr/local/lib/libmageec_gcc.so -fplugin-arg-libmageec_gcc-dumppasses -O2" \
+	${ROOT}/beebs/configure --disable-werror --host=avr --with-chip=atmega328p \
 	--with-board=shrimp >> output.log 2>&1
 if [ $? -gt 0 ]; then
 	echo "Configure Failed" >> output.log 2>&1

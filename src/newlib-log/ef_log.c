@@ -119,7 +119,7 @@ static const float zero   =  0.0;
 
 /* This scale factor will be changed to equalise the runtime of the
    benchmarks. */
-#define SCALE_FACTOR    (REPEAT_FACTOR >> 0)
+#define SCALE_FACTOR    (REPEAT_FACTOR << 3)
 
 /* Tell the compiler not to optimize out calls in BENCHMARK. */
 volatile float result = 0;
@@ -138,13 +138,15 @@ benchmark (void)
 int
 main (void)
 {
-  int i;
+  unsigned int i, j;
 
   initialise_board ();
   start_trigger ();
 
-  for (i = 0; i < SCALE_FACTOR; i++)
-    benchmark ();
+  for (j = 0; j < 16; j++) {
+    for (i = 0; i < SCALE_FACTOR; i++)
+      benchmark ();
+  }
 
   stop_trigger ();
   return 0;

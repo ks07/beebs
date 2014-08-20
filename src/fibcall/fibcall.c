@@ -23,7 +23,7 @@
 
 /* This scale factor will be changed to equalise the runtime of the
    benchmarks. */
-#define SCALE_FACTOR    (REPEAT_FACTOR << 3)
+#define SCALE_FACTOR    0xFFFF//(REPEAT_FACTOR << 3)
 
 /* $Id: fibcall.c,v 1.2 2005/04/04 11:34:58 csg Exp $ */
 
@@ -108,7 +108,7 @@ main (void)
   initialise_board ();
   start_trigger ();
 
-  for (i = 0; i < SCALE_FACTOR; i++)
+  for (i = 0; i < 0x00FF; i++)
     benchmark ();
 
   stop_trigger ();

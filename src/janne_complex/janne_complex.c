@@ -92,13 +92,14 @@ int benchmark()
 int
 main (void)
 {
-  unsigned int i;
+  unsigned int i,j;
 
   initialise_board ();
   start_trigger ();
-
-  for (i = 0; i < SCALE_FACTOR; i++)
-    benchmark ();
+  for (j=0; j < 4; j++) {
+    for (i = 0; i < SCALE_FACTOR; i++)
+      benchmark ();
+  }
 
   stop_trigger ();
   return 0;

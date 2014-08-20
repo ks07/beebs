@@ -111,13 +111,15 @@ binary_search(int x)
 int
 main (void)
 {
-  unsigned int i;
+  unsigned int i, j;
 
   initialise_board ();
   start_trigger ();
 
-  for (i = 0; i < SCALE_FACTOR; i++)
-    binary_search(8);
+  for (j = 0; j < 6; j++) {
+    for (i = 0; i < SCALE_FACTOR; i++)
+      binary_search(8);
+  }
 
   stop_trigger ();
   return 0;

@@ -66,7 +66,7 @@
 
 /* This scale factor will be changed to equalise the runtime of the
    benchmarks. */
-#define SCALE_FACTOR    (REPEAT_FACTOR << 1)
+#define SCALE_FACTOR    (REPEAT_FACTOR << 3)
 
 unsigned int a[11];
 
@@ -95,7 +95,7 @@ benchmark (void)
 int
 main (void)
 {
-  int i;
+  unsigned int i;
 
   initialise_board ();
   start_trigger ();

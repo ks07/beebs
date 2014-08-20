@@ -2,7 +2,7 @@
 
 /* This scale factor will be changed to equalise the runtime of the
    benchmarks. */
-#define SCALE_FACTOR    (REPEAT_FACTOR << 1)
+#define SCALE_FACTOR    (REPEAT_FACTOR << 3)
 
 
 /* $Id: duff.c,v 1.2 2005/04/04 11:34:58 csg Exp $ */
@@ -123,7 +123,7 @@ void benchmark(void)
 int
 main (void)
 {
-  int i;
+  unsigned int i;
 
   initialise_board ();
   start_trigger ();

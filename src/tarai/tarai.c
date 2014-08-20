@@ -23,7 +23,7 @@
 
 /* This scale factor will be changed to equalise the runtime of the
    benchmarks. */
-#define SCALE_FACTOR    (REPEAT_FACTOR << 2)
+#define SCALE_FACTOR    (REPEAT_FACTOR << 3)
 
 int tarai(int x, int y, int z)
 {
@@ -60,7 +60,7 @@ int benchmark()
 int
 main (void)
 {
-  int i;
+  unsigned int i;
 
   initialise_board ();
   start_trigger ();

@@ -46,7 +46,7 @@
 /*************************************************************************/
 #include "support.h"
 
-#define SCALE_FACTOR (REPEAT_FACTOR >> 3)
+#define SCALE_FACTOR (REPEAT_FACTOR >> 0)
 
 #define PI 3.14159
 #define M_PI 3.14159

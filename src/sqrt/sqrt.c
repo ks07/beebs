@@ -23,7 +23,7 @@
 
 /* This scale factor will be changed to equalise the runtime of the
    benchmarks. */
-#define SCALE_FACTOR    (REPEAT_FACTOR >> 10)
+#define SCALE_FACTOR    (REPEAT_FACTOR >> 7)
 
 /* MDH WCET BENCHMARK SUITE. */
 
