@@ -1,15 +1,15 @@
 #!/bin/bash
 
 RDIR=$(pwd -P)
-NRGD=$(find . -maxdepth 2 -name 'energy.csv*' -size +0 -printf '%h\n' | grep './run-..*' | sort | uniq)
+NRGD=$(find . -maxdepth 2 -name 'energy.csv.?' -size +0 -printf '%h\n' | grep -x './run-..*\|.' | sort | uniq)
 
 for d in $NRGD; do
     cd "$d" &&
     # Looks for tests in an energy.csv that have timed out, and attempts to re-run them.
-    TMOUT=$(grep -x '.*,0,0,0,0,0' energy.csv* | sed 's/,0,0,0,0,0//')
+    TMOUT=$(grep -x '.*,0,0,0,0,0' "energy.csv.?" | sed 's/,0,0,0,0,0//')
 
     # Make some backups before we start modifying files
-    find . -maxdepth 1 -name 'energy.csv*' -size +0 -exec cp {} {}.bkp \;
+    find . -maxdepth 1 -name 'energy.csv.?' -size +0 -exec cp {} {}.bkp \;
 
     for tst in $TMOUT; do
 	NFILE=$(echo "$tst" | cut -d ':' -f 1)
