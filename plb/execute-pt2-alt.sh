@@ -9,7 +9,7 @@ for i in {1..3}; do
 
     echo "name,energy,time,avg_power,avg_current,avg_voltage" > "energy.csv.$i" 
 
-    BENCHES=$(find src/ -type f -executable -not -name "template" -printf "%f:%p\n")
+    BENCHES=$(find src/ -type f -executable -not -name "template" -printf "%f:%p\n" | sort)
 
     for bline in $BENCHES; do
 	bn=$(echo "$bline" | cut -d ':' -f 1)
@@ -18,7 +18,7 @@ for i in {1..3}; do
 	nrg=$(timeout "$TIMEOUT" platformrun --csv atmega328p "$bp")
 	
 	if [[ "$?" -eq "0" ]]; then
-	    nrg=$(echo "$nrg" | sed 's/, //g')
+	    nrg=$(echo "$nrg" | sed 's/, /,/g')
 	else
 	    nrg="0,0,0,0,0"
 	fi
