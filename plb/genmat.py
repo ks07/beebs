@@ -12,10 +12,10 @@ if (len(sys.argv) < 2):
 n = int(sys.argv[1])
 
 # Get the nearest N
-N = math.ceil(int(n) / 4) * 4
+#N = math.ceil(int(n) / 4) * 4
 
 # Generate design
-mat = pbdesign(N)
+mat = pbdesign(n)
 
 # Format the matrix
 for idx, row in enumerate(mat):
