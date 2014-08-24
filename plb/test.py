@@ -253,6 +253,7 @@ for line in _inputfile:
   os.mkdir(STARTDIR + '/run-' + test[0])
   os.chdir(STARTDIR + '/run-' + test[0])
   testlist = open('PASSES_TO_RUN','w')
+  optlist = open('OPTIONAL_PASSES', 'w')
   testlist.write(_PASSES_ALWAYS)
   lower = min(_ENTRIES, len(test))
   if len(test) != _ENTRIES:
@@ -261,8 +262,11 @@ for line in _inputfile:
     if test[i] == '1':
       testlist.write(_ROUND1_POSSIBILITIES[i-1])
       testlist.write('\n')
+      optlist.write(_ROUND1_POSSIBILITIES[i-1])
+      optlist.write('\n')
   testlist.write(_ROUND1_EXTRAS)
   testlist.close()
+  optlist.close()
 
   # Execute
   proc = subprocess.call(['tsp', STARTDIR + '/test-pt2.sh', test[0]])

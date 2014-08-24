@@ -2,6 +2,10 @@
 
 import os, glob, numpy, csv, sys, re
 
+BMARK_EXCLUDE = [
+'newlib-log'
+]
+
 # SUPPORTED MODES: 'full', 'mat', 'best'
 MODE = sys.argv[1] if len(sys.argv) > 1 else 'full'
 
@@ -152,9 +156,9 @@ def add_runpass(pdict, pname, run_no):
     if pname not in pdict:
         pdict[pname] = [run_no]
         assert len(pdict) <= n_opt_passes
-    else:
+    elif run_no not in pdict[pname]:
         pdict[pname] += [run_no]
-        assert len(pdict[pname]) <= n_runs / 2
+        assert len(pdict[pname]) <= n_runs + 1 / 2
 
 def avg_bmark_pass(pdict, ndict, bname, pname):
     runs = pdict[pname]
@@ -176,6 +180,8 @@ def avg_bmark_pass(pdict, ndict, bname, pname):
             disabled += nrg
             dcnt += 1
 
+    if ecnt <= 0 or dcnt <= 0:
+        return (bname,pname,0.0,0.0,0.0,0.0,0.0,0.0)
     e_avg = enabled/ecnt
     d_avg = disabled/dcnt
     diff = e_avg - d_avg
@@ -216,8 +222,8 @@ if __name__ == '__main__':
     rundirs = sorted(glob.glob('./run-[0-9]*'), key=lambda x: int(x.split('-')[-1]))
 
     n_runs = len(rundirs)
-    n_opt_passes = 12 # TODO: Calculate from matrix1
-    n_benches = 74 # TODO: Calculate from energy.csv (or src dir)
+    n_opt_passes = 31 # TODO: Calculate from matrix1
+    n_benches = 61 # TODO: Calculate from energy.csv (or src dir)
     n_levels = 2
 
     # Store energy for every benchmark for every run
@@ -264,6 +270,9 @@ if __name__ == '__main__':
     if MODE == 'full':
         print('benchmark,pass,MDE,DV,MEE,EV,delta,delta %')
     for b in nrg_dict:
+        if b in BMARK_EXCLUDE:
+            continue
+
         best_passes = []
         worst_passes = []
 
