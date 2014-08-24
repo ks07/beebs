@@ -210,14 +210,6 @@ def avg_bmark_pass(pdict, ndict, bname, pname):
 if __name__ == '__main__':
     basedir = os.getcwd()
 
-    # Read the base passes to work out which optional passes we are working on
-    base_passes = set()
-    basefile = open('base_passes.txt', 'r')
-    for pline in basefile:
-        base_passes.add(pline)
-
-    basefile.close()
-
     #Sort the list of rundirs to make processing simpler
     rundirs = sorted(glob.glob('./run-[0-9]*'), key=lambda x: int(x.split('-')[-1]))
 
