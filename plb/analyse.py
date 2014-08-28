@@ -165,22 +165,35 @@ def mw_bmark_pass(pdict, ndict, bname, pname):
     runs = pdict[pname]
     res = ndict[bname]
 
-#    for no, nrg in enumerate
+    on = []
+    off = []
+
+    for no, nrg_reps in enumerate(res):
+        for nrg in nrg_reps:
+            if nrg == 0.0:
+                continue
+            elif no in runs:
+                on += [nrg]
+            else:
+                off += [nrg]
+
+    return stats.mannwhitneyu(off, on)
 
 def avg_bmark_pass(pdict, ndict, bname, pname):
     runs = pdict[pname]
     res = ndict[bname]
 
-    enabled = 0.0;
-    disabled = 0.0;
-    ecnt = 0;
-    dcnt = 0;
+    enabled = 0.0
+    disabled = 0.0
+    ecnt = 0
+    dcnt = 0
 
     for no, nrg_reps in enumerate(res):
         for nrg in nrg_reps:
             if nrg == 0.0:
                 # Ignore any failed measurements, but show warning
-                print('WARNING: ignoring failed benchmark ({} run-{})'.format(bname, no))
+                #print('WARNING: ignoring failed benchmark ({} run-{})'.format(bname, no))
+                continue
             elif no in runs:
                 enabled += nrg
                 ecnt += 1
@@ -195,8 +208,8 @@ def avg_bmark_pass(pdict, ndict, bname, pname):
     diff = e_avg - d_avg
     pcnt = diff / d_avg * 100
 
-    e_sdev_sum = 0.0;
-    d_sdev_sum = 0.0;
+    e_sdev_sum = 0.0
+    d_sdev_sum = 0.0
 
     # Calculate sample variance
     for no, nrg_reps in enumerate(res):
@@ -271,6 +284,8 @@ if __name__ == '__main__':
 
     if MODE == 'full':
         print('benchmark,pass,MDE,DV,MEE,EV,delta,delta %')
+    elif MODE == 'mwu':
+        print('benchmark,pass,U,p')
     for b in nrg_dict:
         if b in BMARK_EXCLUDE:
             continue
@@ -279,22 +294,26 @@ if __name__ == '__main__':
         worst_passes = []
 
         for p in pass_dict:
-            bp_info = avg_bmark_pass(pass_dict, nrg_dict, b, p)
+            if MODE == 'mwu':
+                mw = mw_bmark_pass(pass_dict, nrg_dict, b, p)
+                print('{},{},{},{}'.format(b,p,mw[0],mw[1]))
+            else:
+                bp_info = avg_bmark_pass(pass_dict, nrg_dict, b, p)
 
-            best_passes += [(p, bp_info[7])]
-            worst_passes += [(p, bp_info[7])]
-            if len(best_passes) > 3:
-                # Negative values are better, hence use max
-                low = max(best_passes, key=lambda x: x[1])
-                best_passes.remove(low)
-            if len(worst_passes) > 3:
-                hi = min(worst_passes, key=lambda x: x[1])
-                worst_passes.remove(hi)
+                best_passes += [(p, bp_info[7])]
+                worst_passes += [(p, bp_info[7])]
+                if len(best_passes) > 3:
+                    # Negative values are better, hence use max
+                    low = max(best_passes, key=lambda x: x[1])
+                    best_passes.remove(low)
+                if len(worst_passes) > 3:
+                    hi = min(worst_passes, key=lambda x: x[1])
+                    worst_passes.remove(hi)
 
-            if MODE == 'mat':
-                print('{}\t{}\t{}'.format(bp_info[0], bp_info[1], bp_info[7]))
-            elif MODE == 'full':
-                print('{},{},{},{},{},{},{},{}%'.format(*bp_info))
+                if MODE == 'mat':
+                    print('{}\t{}\t{}'.format(bp_info[0], bp_info[1], bp_info[7]))
+                elif MODE == 'full':
+                    print('{},{},{},{},{},{},{},{}%'.format(*bp_info))
 
         if MODE == 'best':
             best_passes = sorted(best_passes, key=lambda x: x[1])
