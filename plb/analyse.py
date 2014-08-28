@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 
+from scipy import stats
 import os, glob, numpy, csv, sys, re
 
 BMARK_EXCLUDE = [
 'newlib-log'
 ]
 
-# SUPPORTED MODES: 'full', 'mat', 'best'
+# SUPPORTED MODES: 'full', 'mat', 'best', 'mwu'
 MODE = sys.argv[1] if len(sys.argv) > 1 else 'full'
 
 # TODO: Take from test.py
@@ -144,12 +145,12 @@ def parse_matrix(path, pass_dict):
                     pname = _ROUND1_POSSIBILITIES[idx]
                     add_runpass(pass_dict, pname, rno)
 
-def add_runrg(ndict, bname, run_no, nrg):
+def add_runrg(ndict, bname, run_no, rpt_no, nrg):
     assert type(nrg) == float
     if bname not in ndict:
-        ndict[bname] = numpy.zeros([n_runs])
+        ndict[bname] = numpy.zeros((n_runs, n_repeats))
         assert len(ndict) <= n_benches
-    ndict[bname][run_no] = nrg
+    ndict[bname][run_no][rpt_no] = nrg
 
 def add_runpass(pdict, pname, run_no):
     assert type(run_no) == int
@@ -160,6 +161,12 @@ def add_runpass(pdict, pname, run_no):
         pdict[pname] += [run_no]
         assert len(pdict[pname]) <= n_runs + 1 / 2
 
+def mw_bmark_pass(pdict, ndict, bname, pname):
+    runs = pdict[pname]
+    res = ndict[bname]
+
+#    for no, nrg in enumerate
+
 def avg_bmark_pass(pdict, ndict, bname, pname):
     runs = pdict[pname]
     res = ndict[bname]
@@ -169,16 +176,17 @@ def avg_bmark_pass(pdict, ndict, bname, pname):
     ecnt = 0;
     dcnt = 0;
 
-    for no, nrg in enumerate(res):
-        if nrg == 0.0:
-            # Ignore any failed measurements, but show warning
-            print('WARNING: ignoring failed benchmark ({} run-{})'.format(bname, no))
-        elif no in runs:
-            enabled += nrg
-            ecnt += 1
-        else:
-            disabled += nrg
-            dcnt += 1
+    for no, nrg_reps in enumerate(res):
+        for nrg in nrg_reps:
+            if nrg == 0.0:
+                # Ignore any failed measurements, but show warning
+                print('WARNING: ignoring failed benchmark ({} run-{})'.format(bname, no))
+            elif no in runs:
+                enabled += nrg
+                ecnt += 1
+            else:
+                disabled += nrg
+                dcnt += 1
 
     if ecnt <= 0 or dcnt <= 0:
         return (bname,pname,0.0,0.0,0.0,0.0,0.0,0.0)
@@ -191,15 +199,16 @@ def avg_bmark_pass(pdict, ndict, bname, pname):
     d_sdev_sum = 0.0;
 
     # Calculate sample variance
-    for no, nrg in enumerate(res):
-        if nrg == 0.0:
-            # Silently ignore
-            continue
-        elif no in runs:
-            # Get the sum of deviations
-            e_sdev_sum += (nrg - e_avg)**2
-        else:
-            d_sdev_sum += (nrg - d_avg)**2
+    for no, nrg_reps in enumerate(res):
+        for nrg in nrg_reps:
+            if nrg == 0.0:
+                # Silently ignore
+                continue
+            elif no in runs:
+                # Get the sum of deviations
+                e_sdev_sum += (nrg - e_avg)**2
+            else:
+                d_sdev_sum += (nrg - d_avg)**2
 
     e_var = e_sdev_sum / (ecnt - 1)
     d_var = d_sdev_sum / (dcnt - 1)
@@ -217,6 +226,7 @@ if __name__ == '__main__':
     n_opt_passes = 31 # TODO: Calculate from matrix1
     n_benches = 61 # TODO: Calculate from energy.csv (or src dir)
     n_levels = 2
+    n_repeats = 3
 
     # Store energy for every benchmark for every run
     rshape = [n_runs, n_benches]
@@ -244,13 +254,13 @@ if __name__ == '__main__':
         #             add_runpass(pass_dict, pline, rnum)
 
         # Read energy for this run
-        efiles = glob.glob('energy.csv*')
-        for ef in efiles:
+        efiles = glob.glob('energy.csv.?')
+        for i, ef in enumerate(efiles):
             with open(ef, 'r', newline='') as run_energy:
                 energyreader = csv.reader(run_energy)
                 next(energyreader) #Skip header line
                 for erow in energyreader:
-                    add_runrg(nrg_dict, bname=erow[0], run_no=rnum, nrg=float(erow[1]))
+                    add_runrg(nrg_dict, bname=erow[0], run_no=rnum, rpt_no=i, nrg=float(erow[1]))
 
         os.chdir(basedir)
 
