@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 
 from scipy import stats
-import os, glob, numpy, csv, sys, re
+import os, glob, numpy, csv, sys, re, matplotlib.pyplot as pp
 
 BMARK_EXCLUDE = [
 'newlib-log'
 ]
 
-# SUPPORTED MODES: 'full', 'mat', 'best', 'mwu'
+# SUPPORTED MODES: 'full', 'mat', 'best', 'mwu', 'bpl'
 MODE = sys.argv[1] if len(sys.argv) > 1 else 'full'
 
 # TODO: Take from test.py
@@ -179,6 +179,88 @@ def mw_bmark_pass(pdict, ndict, bname, pname):
 
     return stats.mannwhitneyu(off, on)
 
+# From SO 16592222
+def setBoxColors(bp):
+    pp.setp(bp['boxes'][0], color='blue')
+    pp.setp(bp['caps'][0], color='blue')
+    pp.setp(bp['caps'][1], color='blue')
+    pp.setp(bp['whiskers'][0], color='blue')
+    pp.setp(bp['whiskers'][1], color='blue')
+    pp.setp(bp['fliers'][0], color='blue')
+    pp.setp(bp['fliers'][1], color='blue')
+    pp.setp(bp['medians'][0], color='blue')
+
+    pp.setp(bp['boxes'][1], color='red')
+    pp.setp(bp['caps'][2], color='red')
+    pp.setp(bp['caps'][3], color='red')
+    pp.setp(bp['whiskers'][2], color='red')
+    pp.setp(bp['whiskers'][3], color='red')
+    pp.setp(bp['fliers'][2], color='red')
+    pp.setp(bp['fliers'][3], color='red')
+    pp.setp(bp['medians'][1], color='red')
+
+def boxplot_bmark(pdict, ndict, bname, gyufku):
+    res = ndict[bname]
+
+    xticks = []
+    xticklabels = []
+
+    y_min = float('inf')
+    y_max = 0
+
+    fig = pp.figure(figsize=(14, 6))
+    fig.suptitle('Energy for {} (Blue == Enabled)'.format(bname))
+    ax = pp.axes()
+    pp.hold(True)
+
+    for pname in sorted(pdict):
+        # Collect the list of passes and set their respective locations
+        xticklabels += [pname]
+        xticks += [len(xticklabels) * 3 - 1.5]
+
+        data = ([],[])
+
+        for no, nrg_reps in enumerate(res):
+            for nrg in nrg_reps:
+                if nrg == 0.0:
+                    continue
+                elif no in pdict[pname]:
+                    data[0].append(nrg)
+                else:
+                    data[1].append(nrg)
+
+        # Plot the two boxplots for the enabled/disabled pair for this pass
+        pos = len(xticklabels) * 3 - 2
+        bp = pp.boxplot(data, positions = [pos, pos + 1], widths = 0.6, notch = True, bootstrap = 1000)
+        setBoxColors(bp)
+
+        # Adjust axes limits
+        y_min = min(min(min(data)), y_min)
+        y_max = max(max(max(data)), y_max)
+
+    # Set the boundaries of the graph
+    pp.xlim(0, 3 * len(xticklabels))
+    pp.ylim(y_min * 0.975, y_max * 1.025)
+
+    # Add pass labels to x axis
+    ax.set_xticklabels(xticklabels)
+    ax.set_xticks(xticks)
+
+    # Rotate pass labels
+    pp.setp(ax.get_xticklabels(), rotation='vertical', fontsize=12)
+
+    # Plot lines for legend where they will definitely be within graph area.
+    #hB, = pp.plot([1,y_min],'b-')
+    #hR, = pp.plot([1,y_min],'r-')
+    #pp.legend((hB, hR), ('E', 'D'), bbox_to_anchor=(1, 1))
+    #hB.set_visible(False)
+    #hR.set_visible(False)
+
+    pp.subplots_adjust(bottom=0.3)
+
+    #pp.show()
+    pp.savefig('boxtest.svg')
+
 def avg_bmark_pass(pdict, ndict, bname, pname):
     runs = pdict[pname]
     res = ndict[bname]
@@ -227,7 +309,6 @@ def avg_bmark_pass(pdict, ndict, bname, pname):
     d_var = d_sdev_sum / (dcnt - 1)
 
     return (bname,pname,d_avg,d_var,e_avg,e_var,diff,pcnt)
-    #print('{},{},{},{},{},{},{},{}%'.format(bname,pname,d_avg,d_var,e_avg,e_var,diff,pcnt))
 
 if __name__ == '__main__':
     basedir = os.getcwd()
@@ -259,13 +340,6 @@ if __name__ == '__main__':
         assert rnum < n_runs
         os.chdir(rd)
 
-        # Read passes for this run
-        # with open('PASSES_TO_RUN', 'r') as run_passes:
-        #     for pline in run_passes:
-        #         if pline not in base_passes:
-        #             pline = pline.strip()
-        #             add_runpass(pass_dict, pline, rnum)
-
         # Read energy for this run
         efiles = glob.glob('energy.csv.?')
         for i, ef in enumerate(efiles):
@@ -280,43 +354,44 @@ if __name__ == '__main__':
     #print(pass_dict)
     #print(nrg_dict)
 
+    if MODE == 'bpl':
+        boxplot_bmark(pass_dict, nrg_dict, '2dfir', 'increase_alignment')
+    else:
+        if MODE == 'full':
+            print('benchmark,pass,MDE,DV,MEE,EV,delta,delta %')
+        elif MODE == 'mwu':
+            print('benchmark,pass,U,p')
+        for b in nrg_dict:
+            if b in BMARK_EXCLUDE:
+                continue
 
+            best_passes = []
+            worst_passes = []
 
-    if MODE == 'full':
-        print('benchmark,pass,MDE,DV,MEE,EV,delta,delta %')
-    elif MODE == 'mwu':
-        print('benchmark,pass,U,p')
-    for b in nrg_dict:
-        if b in BMARK_EXCLUDE:
-            continue
+            for p in pass_dict:
+                if MODE == 'mwu':
+                    mw = mw_bmark_pass(pass_dict, nrg_dict, b, p)
+                    print('{},{},{},{}'.format(b,p,mw[0],mw[1]))
+                else:
+                    bp_info = avg_bmark_pass(pass_dict, nrg_dict, b, p)
 
-        best_passes = []
-        worst_passes = []
+                    best_passes += [(p, bp_info[7])]
+                    worst_passes += [(p, bp_info[7])]
+                    if len(best_passes) > 3:
+                        # Negative values are better, hence use max
+                        low = max(best_passes, key=lambda x: x[1])
+                        best_passes.remove(low)
+                    if len(worst_passes) > 3:
+                        hi = min(worst_passes, key=lambda x: x[1])
+                        worst_passes.remove(hi)
 
-        for p in pass_dict:
-            if MODE == 'mwu':
-                mw = mw_bmark_pass(pass_dict, nrg_dict, b, p)
-                print('{},{},{},{}'.format(b,p,mw[0],mw[1]))
-            else:
-                bp_info = avg_bmark_pass(pass_dict, nrg_dict, b, p)
+                    if MODE == 'mat':
+                        print('{}\t{}\t{}'.format(bp_info[0], bp_info[1], bp_info[7]))
+                    elif MODE == 'full':
+                        print('{},{},{},{},{},{},{},{}%'.format(*bp_info))
 
-                best_passes += [(p, bp_info[7])]
-                worst_passes += [(p, bp_info[7])]
-                if len(best_passes) > 3:
-                    # Negative values are better, hence use max
-                    low = max(best_passes, key=lambda x: x[1])
-                    best_passes.remove(low)
-                if len(worst_passes) > 3:
-                    hi = min(worst_passes, key=lambda x: x[1])
-                    worst_passes.remove(hi)
-
-                if MODE == 'mat':
-                    print('{}\t{}\t{}'.format(bp_info[0], bp_info[1], bp_info[7]))
-                elif MODE == 'full':
-                    print('{},{},{},{},{},{},{},{}%'.format(*bp_info))
-
-        if MODE == 'best':
-            best_passes = sorted(best_passes, key=lambda x: x[1])
-            worst_passes = sorted(worst_passes, key=lambda x: x[1])
-            print('{};{};{};{};...;{};{};{}'.format(*([b] + best_passes + worst_passes)))
+            if MODE == 'best':
+                best_passes = sorted(best_passes, key=lambda x: x[1])
+                worst_passes = sorted(worst_passes, key=lambda x: x[1])
+                print('{};{};{};{};...;{};{};{}'.format(*([b] + best_passes + worst_passes)))
 
