@@ -199,7 +199,7 @@ def setBoxColors(bp):
     pp.setp(bp['fliers'][3], color='red')
     pp.setp(bp['medians'][1], color='red')
 
-def boxplot_bmark(pdict, ndict, bname, gyufku):
+def boxplot_bmark(pdict, ndict, bname):
     res = ndict[bname]
 
     xticks = []
@@ -209,7 +209,7 @@ def boxplot_bmark(pdict, ndict, bname, gyufku):
     y_max = 0
 
     fig = pp.figure(figsize=(14, 6))
-    fig.suptitle('Energy for {} (Blue == Enabled)'.format(bname))
+    fig.suptitle('Energy (J) for {}'.format(bname))
     ax = pp.axes()
     pp.hold(True)
 
@@ -250,16 +250,17 @@ def boxplot_bmark(pdict, ndict, bname, gyufku):
     pp.setp(ax.get_xticklabels(), rotation='vertical', fontsize=12)
 
     # Plot lines for legend where they will definitely be within graph area.
-    #hB, = pp.plot([1,y_min],'b-')
-    #hR, = pp.plot([1,y_min],'r-')
-    #pp.legend((hB, hR), ('E', 'D'), bbox_to_anchor=(1, 1))
-    #hB.set_visible(False)
-    #hR.set_visible(False)
+    hB, = pp.plot([1,y_min],'b-')
+    hR, = pp.plot([1,y_min],'r-')
+    pp.legend((hB, hR), ('On', 'Off'), loc='center left', bbox_to_anchor=(1, 0.5))
+    hB.set_visible(False)
+    hR.set_visible(False)
 
     pp.subplots_adjust(bottom=0.3)
 
     #pp.show()
-    pp.savefig('boxtest.svg')
+    pp.savefig('{}.svg'.format(bname))
+    pp.close()
 
 def avg_bmark_pass(pdict, ndict, bname, pname):
     runs = pdict[pname]
@@ -355,7 +356,12 @@ if __name__ == '__main__':
     #print(nrg_dict)
 
     if MODE == 'bpl':
-        boxplot_bmark(pass_dict, nrg_dict, '2dfir', 'increase_alignment')
+        os.mkdir('boxplots')
+        os.chdir('boxplots')
+
+        for b in nrg_dict:
+            if b not in BMARK_EXCLUDE:
+                boxplot_bmark(pass_dict, nrg_dict, b)
     else:
         if MODE == 'full':
             print('benchmark,pass,MDE,DV,MEE,EV,delta,delta %')
