@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 
 # Generates a matrix1 file
-import sys, math
+import sys, math, numpy
 from pyDOE import pbdesign;
+from scipy import linalg
 
 if (len(sys.argv) < 2):
     print("USAGE: genmat.py <factor count>")
@@ -15,7 +16,11 @@ n = int(sys.argv[1])
 #N = math.ceil(int(n) / 4) * 4
 
 # Generate design
-mat = pbdesign(n)
+try:
+    mat = pbdesign(n)
+except:
+    # Fallback to hadamard
+    mat = linalg.hadamard(n, numpy.float64)
 
 # Format the matrix
 for idx, row in enumerate(mat):
