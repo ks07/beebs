@@ -10,141 +10,6 @@ BMARK_EXCLUDE = [
 # SUPPORTED MODES: 'full', 'mat', 'best', 'mwu', 'bpl'
 MODE = sys.argv[1] if len(sys.argv) > 1 else 'full'
 
-# TODO: Take from test.py
-_ROUND1_POSSIBILITIES = [
-'inline_param',
-'einline',
-'early_optimizations',
-'copyrename',
-'ccp',
-'forwprop',
-'ealias',
-'esra',
-'fre',
-'copyprop',
-'mergephi',
-'cddce',
-'eipa_sra',
-'tailr',
-'switchconv',
-'ehcleanup',
-'profile_estimate',
-'local-pure-const',
-'fnsplit',
-'release_ssa',
-'inline_param',
-'profile',
-'increase_alignment',
-'tmipa',
-'emutls',
-'whole-program',
-'profile_estimate',
-'devirt',
-'cp',
-'cdtor',
-'inline',
-'pure-const',
-'static-var',
-'pta',
-'simdclone',
-'ehdisp',
-'copyrename',
-'ccp',
-'copyprop',
-'cunrolli',
-'phiprop',
-'forwprop',
-'objsz',
-'alias',
-'retslot',
-'fre',
-'copyprop',
-'mergephi',
-'vrp',
-'dce',
-'cdce',
-'cselim',
-'ifcombine',
-'phiopt',
-'tailr',
-'ch',
-'stdarg',
-'', #cplxlower
-'sra',
-'copyrename',
-'dom',
-'isolate-paths',
-'phicprop',
-'dse',
-'reassoc',
-'dce',
-'forwprop',
-'phiopt',
-'strlen',
-'ccp',
-'copyprop',
-'sincos',
-'bswap',
-'crited',
-'pre',
-'sink',
-'', #asan
-'', #tsan
-'loop',
-'loopinit',
-'lim',
-'copyprop',
-'dceloop',
-'unswitch',
-'sccp',
-'ckdd',
-'ldist',
-'copyprop',
-'graphite0',
-'ivcanon',
-'parloops',
-'ifcvt',
-'vect',
-'dceloop',
-'pcom',
-'cunroll',
-'slp',
-'aprefetch',
-'ivopts',
-'lim',
-'loopdone',
-'veclower2',
-'recip',
-'reassoc',
-'slsr',
-'dom',
-'phicprop',
-'vrp',
-'cddce',
-'tracer',
-'dse',
-'forwprop',
-'phiopt',
-'fab',
-'widening_mul',
-'tailc',
-'copyrename',
-'crited',
-'uninit',
-'uncprop',
-]
-
-# TODO: Update this method in test.py and re-use it
-def parse_matrix(path, pass_dict):
-    with open(path, 'r') as _inputfile:
-        for line in _inputfile:
-            test = re.split(' *', line.strip())
-            rno = int(test.pop(0))
-            for idx, gate in enumerate(test):
-                if idx < len(_ROUND1_POSSIBILITIES) and int(gate) == 1:
-                    pname = _ROUND1_POSSIBILITIES[idx]
-                    add_runpass(pass_dict, pname, rno)
-
 def add_runrg(ndict, bname, run_no, rpt_no, nrg):
     assert type(nrg) == float
     if bname not in ndict:
@@ -333,13 +198,18 @@ if __name__ == '__main__':
     # Mapping of benchmarks to run results
     nrg_dict = {}
 
-    parse_matrix('matrix1', pass_dict)
-
     # Get passes and energy for each run
     for rd in rundirs:
         rnum = int(rd.split('-')[-1])
         assert rnum < n_runs
         os.chdir(rd)
+
+        # Read opt passes
+        with open('OPTIONAL_PASSES', 'r') as passlist:
+            for line in passlist:
+                line = line.strip()
+                if len(line) > 0:
+                    add_runpass(pass_dict, line, rnum)
 
         # Read energy for this run
         efiles = glob.glob('energy.csv.?')
