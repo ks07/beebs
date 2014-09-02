@@ -73,15 +73,16 @@ def boxplot_bmark(pdict, ndict, bname):
     y_min = float('inf')
     y_max = 0
 
-    fig = pp.figure(figsize=(14, 6))
+    fig = pp.figure(figsize=(20, 12))
     fig.suptitle('Energy (J) for {}'.format(bname))
     ax = pp.axes()
     pp.hold(True)
+    pp.grid()
 
     for pname in sorted(pdict):
         # Collect the list of passes and set their respective locations
         xticklabels += [pname]
-        xticks += [len(xticklabels) * 3 - 1.5]
+        xticks += [len(xticklabels) * 6 - 1]
 
         data = ([],[])
 
@@ -95,8 +96,8 @@ def boxplot_bmark(pdict, ndict, bname):
                     data[1].append(nrg)
 
         # Plot the two boxplots for the enabled/disabled pair for this pass
-        pos = len(xticklabels) * 3 - 2
-        bp = pp.boxplot(data, positions = [pos, pos + 1], widths = 0.6, notch = True, bootstrap = 1000)
+        pos = len(xticklabels) * 6 - 2
+        bp = pp.boxplot(data, positions = [pos, pos + 2], widths = 1.0, notch = True, bootstrap = 1000)
         setBoxColors(bp)
 
         # Adjust axes limits
@@ -104,7 +105,7 @@ def boxplot_bmark(pdict, ndict, bname):
         y_max = max(max(max(data)), y_max)
 
     # Set the boundaries of the graph
-    pp.xlim(0, 3 * len(xticklabels))
+    pp.xlim(0, 6 * len(xticklabels) + 3)
     pp.ylim(y_min * 0.975, y_max * 1.025)
 
     # Add pass labels to x axis
