@@ -3,12 +3,18 @@
 from scipy import stats
 import os, glob, numpy, csv, sys, re, matplotlib.pyplot as pp
 
+# SUPPORTED MODES: 'full', 'mat', 'best', 'mwu', 'bpl'
+SUPPORTED_MODES = [
+'full',
+'mat',
+'best',
+'mwu',
+'bpl'
+]
+
 BMARK_EXCLUDE = [
 'newlib-log'
 ]
-
-# SUPPORTED MODES: 'full', 'mat', 'best', 'mwu', 'bpl'
-MODE = sys.argv[1] if len(sys.argv) > 1 else 'full'
 
 def add_runrg(ndict, bname, run_no, rpt_no, nrg):
     assert type(nrg) == float
@@ -178,6 +184,8 @@ def avg_bmark_pass(pdict, ndict, bname, pname):
     return (bname,pname,d_avg,d_var,e_avg,e_var,diff,pcnt)
 
 if __name__ == '__main__':
+    MODE = sys.argv[1] if len(sys.argv) > 1 and sys.argv[1] in SUPPORTED_MODES else SUPPORTED_MODES[0]
+
     basedir = os.getcwd()
 
     #Sort the list of rundirs to make processing simpler
@@ -205,13 +213,6 @@ if __name__ == '__main__':
         assert rnum < n_runs
         os.chdir(rd)
 
-        # Read opt passes
-        with open('OPTIONAL_PASSES', 'r') as passlist:
-            for line in passlist:
-                line = line.strip()
-                if len(line) > 0:
-                    add_runpass(pass_dict, line, rnum)
-
         # Read energy for this run
         efiles = glob.glob('energy.csv.?')
         for i, ef in enumerate(efiles):
@@ -220,6 +221,13 @@ if __name__ == '__main__':
                 next(energyreader) #Skip header line
                 for erow in energyreader:
                     add_runrg(nrg_dict, bname=erow[0], run_no=rnum, rpt_no=i, nrg=float(erow[1]))
+
+        # Read opt passes
+        with open('OPTIONAL_PASSES', 'r') as passlist:
+            for line in passlist:
+                line = line.strip()
+                if len(line) > 0:
+                    add_runpass(pass_dict, line, rnum)
 
         os.chdir(basedir)
 
