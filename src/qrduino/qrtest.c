@@ -1,5 +1,5 @@
 /* -*- mode: C++; c-file-style: "gnu-mode" -*- */
-/* BEEBS template benchmark
+/* BEEBS qrduino benchmark
 
    Copyright (C) 2013 Embecosm Limited and University of Bristol
 
@@ -30,7 +30,7 @@
 #define SCALE_FACTOR    (REPEAT_FACTOR >> 8)
 
 
-void
+int
 benchmark (void)
 {
   const char *encode="http://www.mageec.com";
@@ -43,6 +43,7 @@ benchmark (void)
   qrencode();
   freeframe();
   freeecc();
+  return 0;
 }
 
 
